@@ -1,0 +1,4 @@
+1. Change the home position to enable gripper
+2. How to stop robot from python
+3. How to convert recording to python code
+4. How to clear trajectories
