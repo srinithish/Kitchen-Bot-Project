@@ -40,6 +40,8 @@ source  = sr.Microphone()
 
 def triggerHotWord(recognizer, audio):                          # this is called from the background thread
     try:
+        
+        
         text = r.recognize_google(audio)
         print("You said " + text)  # received audio data, now need to recognize it
         
@@ -67,8 +69,8 @@ def parseSpokenText(recognizer, audio):
         
         
         try: 
-             
-            text = r.recognize_google(audio) 
+            text = r.recognize_sphinx(audio) 
+#            text = r.recognize_google(audio) 
             print ("you said: " ,text)
 #            m = re.match("(?:Hello|Hey).*(?:robot|bot).*(?:get|give).*me (.*)", 
 #                         text,re.IGNORECASE)   
@@ -126,7 +128,12 @@ def parseSpokenText(recognizer, audio):
 
 
 if __name__ == '__main__':
-
+    
+    """
+    repo : https://github.com/srinithish/Kitchen-Bot-Project
+    usage python threadedSpeechRecognition.py
+    """
+    
     r.listen_in_background(source,parseSpokenText,phrase_time_limit=6) ### returns stopper
     
     
