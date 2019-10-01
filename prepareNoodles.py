@@ -14,7 +14,6 @@ import time
 from cookingActions import cookingActions
 
 
-
 from xarm.wrapper import XArmAPI
 from configparser import ConfigParser
 parser = ConfigParser()
@@ -53,7 +52,7 @@ myCkAct = cookingActions(arm)
 
 
 
-myCkAct.stir([300,0,200,-180,0,0],speed = 100,radius = 50,numTimes=2,wait = True)
+myCkAct.stir([300,300,200,-180,0,0],speed = 100,radius = 50,numTimes=2,wait = True)
 
 
 

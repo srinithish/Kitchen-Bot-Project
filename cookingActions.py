@@ -9,7 +9,7 @@ Created on Mon Sep 30 08:46:47 2019
 
 from xarm.wrapper import XArmAPI
 
-import numpy as np
+#import numpy as np
 
 
 
@@ -48,7 +48,7 @@ class cookingActions:
         Point2[0] = Point2[0]+radius## change x to go right by radius
         
         Point3 = list(circleCenterWithOrient)
-        Point2[1] = Point2[1]+radius ##change y to go down by radius
+        Point3[1] = Point3[1]+radius ##change y to go down by radius
         
         percent = numTimes*100
         ret = armHandle.move_circle(pose1=Point2, pose2=Point3, 
