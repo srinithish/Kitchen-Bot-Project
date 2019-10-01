@@ -72,3 +72,4 @@ print('move_circle, ret: {}'.format(ret))
 
 arm.reset(wait=True)
 arm.disconnect()
+8
