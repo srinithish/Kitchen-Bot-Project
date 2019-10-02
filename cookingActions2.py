@@ -38,6 +38,10 @@ class cookingActions2:
 
     def stirAnyPlane(self, circleCenterWithOrient,plane, speed, radius, numTimes, wait):
 
+        #XYplane = 0
+        #YZplane = 1
+        #XZplane = 2
+
         armHandle = self._armHandle
 
         valid = {0, 1, 2}
