@@ -3,6 +3,7 @@ from xarm.wrapper import XArmAPI
 
 class cookingActions2:
 
+
     def __init__(self, armHandle):
 
         self._armHandle = armHandle
@@ -10,9 +11,10 @@ class cookingActions2:
 
         pass
 
-    def stirWithOrient(self, circleCenterWithOrient, orient, speed, radius, numTimes, wait):
 
-        self._armHandle = armHandle
+    def stirWithOrient(self, circleCenterWithOrient, orient, speed,mvacc, radius, numTimes, wait):
+
+        armHandle = self._armHandle
 
         initPosition = list(circleCenterWithOrient)
         initPosition[1] = initPosition[1] - radius  ## change y go up by radius
@@ -30,13 +32,14 @@ class cookingActions2:
         # percent = numTimes * 100
         for i in range(1, numTimes):
             ret = armHandle.move_circle(pose1=Point2, pose2=Point3,
-                                        percent=100, speed=speed, mvacc=50, wait=wait, is_radian=False)
+                                        percent=100, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
             print('move_circle, ret: {}'.format(ret))
-            armHandle.set_position(pitch=+orient, wait=wait, is_radian=False, speed=400)
+            armHandle.set_position(pitch=+orient, mvacc=500, wait=wait, is_radian=False, speed=400)
 
         pass
 
-    def stirAnyPlane(self, circleCenterWithOrient,plane, speed, radius, numTimes, wait):
+
+    def stirAnyPlane(self, circleCenterWithOrient,plane, mvacc, speed, radius, numTimes, wait):
 
         #XYplane = 0
         #YZplane = 1
@@ -67,12 +70,13 @@ class cookingActions2:
 
         percent = numTimes * 100
         ret = armHandle.move_circle(pose1=Point2, pose2=Point3,
-                                    percent=percent, speed=speed, mvacc=100, wait=wait, is_radian=False)
+                                    percent=percent, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
         print('move_circle, ret: {}'.format(ret))
 
         pass
 
-    def stirEight(self, circleCenterWithOrient, speed, radius, numTimes, wait):
+
+    def stirEight(self, circleCenterWithOrient, speed,mvacc, radius, numTimes, wait):
 
         armHandle = self._armHandle
 
@@ -97,14 +101,14 @@ class cookingActions2:
         Point5[0] = Point5[0] - radius
         Point5[1] = Point5[1] - radius
 
-        for i in range(1, numTimes):
+        for i in range(0, numTimes):
             ret = armHandle.move_circle(pose1=Point2, pose2=Point3,
-                                        percent=100, speed=speed, mvacc=100, wait=wait, is_radian=False)
+                                        percent=100, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
             print('move_circle, ret: {}'.format(ret))
 
 
-            ret = armHandle.move_circle(pose1=Point4, pose2=Point5,
-                                        percent=100, speed=speed, mvacc=100, wait=wait, is_radian=False)
+            ret = armHandle.move_circle(pose1=Point5, pose2=Point4,
+                                        percent=100, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
             print('move_circle, ret: {}'.format(ret))
 
 

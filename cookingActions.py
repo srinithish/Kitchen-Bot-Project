@@ -98,7 +98,7 @@ class cookingActions:
         pass
     
     
-    def sprinkle(self, centerPosWithOrient,numTimes,wait):
+    def sprinkle(self, centerPosWithOrient,numTimes,speed, mvacc, wait):
         
         
         """
@@ -108,20 +108,23 @@ class cookingActions:
         
         
         armHandle = self._armHandle
+
+        initPosition = list(centerPosWithOrient)
         
         # TODO: yet to decide roll or pitch or yaw
         ##position at 45
-        armHandle.set_position(roll = +45, relative=True, wait=wait,is_radian  = False)
+        armHandle.set_position(*initPosition,speed = speed, wait=wait,is_radian  = False)
         
         
         
         ### loop here
+        for i in range(numTimes):
         ### jerk move front
-        armHandle.set_position(x = 30,z = -30,speed = 100, relative=True, wait=wait,is_radian  = False)
-        
-        ### jerk move back
-        armHandle.set_position(x = -30,z = 30,speed = 100, relative=True, wait=wait,is_radian  = False)
-        
+            armHandle.set_position(x = 50,z = -200,pitch = +45, relative=True,mvacc=mvacc, wait=wait,is_radian  = False)
+
+            ### jerk move back
+            armHandle.set_position(x = -50,z = 200,pitch = -45,relative=True, mvacc=mvacc, wait=wait,is_radian  = False)
+
         pass
     
     

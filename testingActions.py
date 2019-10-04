@@ -17,7 +17,7 @@ def handle_err_warn_changed(item):
     # TODO：Do different processing according to the error code
 
 arm = XArmAPI(ip, do_not_open=True, is_radian=False)
-arm.register_error_warn_changed_callback(hangle_err_warn_changed)
+arm.register_error_warn_changed_callback(handle_err_warn_changed)
 arm.connect()
 
 
@@ -40,25 +40,29 @@ arm.set_state(state=0)
 myCkAct = cookingActions(arm)
 myCkAct2= cookingActions2(arm)
 
-arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
 
-myCkAct.stir([500,0,200,-180,0,0],speed = 100,radius = 50,numTimes=5,wait = True)
-arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+arm.set_position(256,0,200,-180,0,0,speed = 1000,mvacc=5000, wait = True,is_radian=False)
 
-myCkAct2.stirWithOrient([500,0,200,-180,0,0],orient = 20,speed = 200,radius = 50,numTimes=5,wait = True)
-arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+# arm.set_position(256,0,400,-180,0,0,speed = 400,mvacc=2000, wait = True,is_radian=False)
+# arm.set_position(256,0,400,-180,90,0,speed = 500,mvacc=2000, wait = True,is_radian=False)
+print(arm.last_used_tcp_acc,arm.last_used_tcp_speed)
+# myCkAct.stir([500,0,200,-180,0,0],speed = 100,radius = 50,numTimes=5,wait = True)
+# arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+#
+# myCkAct2.stirWithOrient([500,0,200,-180,0,0],orient = 20,speed = 200,mvacc=100, radius = 50,numTimes=5,wait = True)
+# arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+#
+# myCkAct2.stirEight([500,0,200,-180,0,0],speed = 300,mvacc=100, radius = 100,numTimes=5,wait = True)
+# arm.set_position(256,0,200,-180,0,0,speed = 300, mvacc = 300, wait = True)
+#
+# myCkAct2.stirAnyPlane([500,0,500,-180,0,0],plane = 2,mvacc=200,speed = 200,radius = 50,numTimes=5,wait = True)
+# arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+#
+# myCkAct.makePlusMovement([500,0,200,-180,0,0],speed = 100,length = 50,numTimes = 3, wait = True)
+# arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
 
-myCkAct2.stirEight([500,0,200,-180,0,0],speed = 200,radius = 100,numTimes=5,wait = True)
-arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
-
-myCkAct2.stirAnyPlane([500,0,400,-180,0,0],plane = 1,speed = 200,radius = 50,numTimes=5,wait = True)
-arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
-
-myCkAct.makePlusMovement([500,0,200,-180,0,0],speed = 100,length = 50,numTimes = 3, wait = True)
-arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
-
-myCkAct.sprinkle([500,-30,250,-180,0,0],numTimes=5,wait = True)
-arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+myCkAct.sprinkle([400,0,400,-180,-45,0], numTimes = 2,speed=600,mvacc=2000,wait = True)
+# arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 100, wait = True)
 
 arm.move_gohome()
 arm.disconnect()
