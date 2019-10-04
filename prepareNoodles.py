@@ -55,7 +55,7 @@ myCkAct = cookingActions(arm)
 myCkAct.stir([300,300,200,-180,0,0],speed = 100,radius = 50,numTimes=2,wait = True)
 
 
-
+arm.set_reduced_mode(False)
 
 
 arm.disconnect()

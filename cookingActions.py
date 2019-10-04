@@ -120,25 +120,107 @@ class cookingActions:
         ### loop here
         for i in range(numTimes):
         ### jerk move front
-            armHandle.set_position(x = 50,z = -200,pitch = +45, relative=True,mvacc=mvacc, wait=wait,is_radian  = False)
+            armHandle.set_position(x = 50,z = -200,pitch = +45, relative=True,speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
 
             ### jerk move back
-            armHandle.set_position(x = -50,z = 200,pitch = -45,relative=True, mvacc=mvacc, wait=wait,is_radian  = False)
+            armHandle.set_position(x = -50,z = 200,pitch = -45,relative=True, speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
 
         pass
     
     
-    def pour(self, centerPosWithOrient,pourDegree,wait):
+    def pour(self, pourDegree,speed,mvacc,wait):
+        
+        """
+        imagines the robot is already at the centerPosWithOrient
+        succeeds a pick and place
+        
+        """
         
         armHandle = self._armHandle
         
-        # TODO: yet to decide roll or pitch or yaw
-        armHandle.set_position(roll = +45, relative=True, wait=wait,is_radian  = False)
         
+      
+
+        
+        
+        
+        # TODO: yet to decide roll or pitch or yaw
+        armHandle.set_position(pitch = pourDegree, relative=True, wait=wait,is_radian  = False)
+        
+#        armHandle.set_position(400,0,400,-130,80,0, relative=False, wait=wait,is_radian  = False)
+        
+        
+        ## depour
+        armHandle.set_position(pitch = -pourDegree, relative=True, wait=wait,is_radian  = False)
+        
+        
+        pass
+    
+    
+    def horizontalPickAndPlace(self,startPos,endPose,wait):
+        """
+        Orientation should and change
+        Overrides orienations
+        """
+        
+        
+        
+        armHandle = self._armHandle
+        
+        
+        if startPos[1] >= 0:
+        
+            xRoll = -90
+        
+        elif  startPos[1] < 0:
+            
+            xRoll = 90
+            
+        
+        ##over ridding orientations
+        ## assisting x axis rotation roll
+        startPos[3:] = [-180,90,0]
+        
+        
+        
+        armHandle.set_position(*startPos,  wait=wait,is_radian  = False)
+        
+        startPos[3:] = [xRoll,90,0]
+        
+        
+        armHandle.set_position(*startPos,  wait=wait,is_radian  = False)
+        
+        
+        endPose[3:] = [xRoll,90,0]
+        armHandle.set_position(*endPose,  wait=wait,is_radian  = False)
+        
+        
+      
         
         
         
         pass
+    
+    def verticalPickAndPlace(self,startPos,endPose,wait):
+        
+        """
+        Orientation should and change
+        Overrides orienations
+        """
+        armHandle = self._armHandle
+        
+        
+        ##over ridding orientations
+        startPos[3:] = [-180,0,0]
+        endPose[3:] = [-180,0,0]
+        
+        
+        armHandle.set_position(*startPos,  wait=wait,is_radian  = False)
+        
+        armHandle.set_position(*endPose,  wait=wait,is_radian  = False)
+        pass
+        
+        
         
         
         
