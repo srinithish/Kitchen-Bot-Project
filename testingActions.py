@@ -61,7 +61,7 @@ arm.move_gohome()
 
 
 # arm.set_position(256,0,400,-180,90,0,speed = 500,mvacc=2000, wait = True,is_radian=False)
-print(arm.last_used_tcp_acc,arm.last_used_tcp_speed)
+#print(arm.g,arm.last_used_tcp_speed)
 #myCkAct.stir([550,0,200,-180,-90,0],speed = 100,radius = 50,numTimes=5,wait = True)
 # arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
 #
@@ -82,7 +82,7 @@ print(arm.last_used_tcp_acc,arm.last_used_tcp_speed)
 myCkAct.horizontalPickAndPlace([300,-50,200,-180,0,0],[300,-50,400,-180,0,0],wait = True)
 
 #myCkAct.pour(pourDegree=30,speed = 100,mvacc=100,wait=True)
-myCkAct.stir(arm.last_used_position,speed = 100,radius = 50,numTimes=5,wait = True)
+myCkAct.stir(arm.get_position(is_radian=False)[1],speed = 100,radius = 50,numTimes=5,wait = True)
 #arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 100, wait = True)
 
 #time.sleep(5)

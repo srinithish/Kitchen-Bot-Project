@@ -168,14 +168,22 @@ class cookingActions:
         armHandle = self._armHandle
         
         
-        if startPos[1] >= 0:
+        
+        ## if y is +ve
+        if startPos[1] > 0:
         
             xRoll = -90
         
+        
+        ## if y is -ve
         elif  startPos[1] < 0:
             
             xRoll = 90
+        
+        
+        elif  startPos[1] == 0:
             
+            xRoll = 180
         
         ##over ridding orientations
         ## assisting x axis rotation roll
