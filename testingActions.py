@@ -47,9 +47,6 @@ myCkAct2= cookingActions2(arm)
 #arm.set_position(pitch = -90,speed = 100,mvacc=100, wait = True,is_radian=False,relative=True)
 
 
-
-arm.move_gohome()
-
 #arm.set_position(300,0,300,-180,0,0,speed = 50,mvacc=100, wait = True,is_radian=False)
 
 #arm.set_position(400,100,100,-90,90,0,speed = 50,mvacc=100, wait = True,is_radian=False)
@@ -79,7 +76,7 @@ arm.move_gohome()
 
 #myCkAct.sprinkle([400,0,400,-180,-45,0], numTimes = 2,speed=1000,mvacc=2000,wait = True)
 
-myCkAct.horizontalPickAndPlace([300,-50,200,-180,0,0],[300,-50,400,-180,0,0],wait = True)
+myCkAct.horizontalPickAndPlace([300,50,-180,0,0],[300,50,400,-180,0,0],wait = True)
 
 #myCkAct.pour(pourDegree=30,speed = 100,mvacc=100,wait=True)
 myCkAct.stir(arm.get_position(is_radian=False)[1],speed = 100,radius = 50,numTimes=5,wait = True)
