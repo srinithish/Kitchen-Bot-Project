@@ -138,12 +138,8 @@ class cookingActions:
         
         armHandle = self._armHandle
         
-        
-      
 
-        
-        
-        
+
         # TODO: yet to decide roll or pitch or yaw
         armHandle.set_position(pitch = pourDegree, relative=True, wait=wait,is_radian  = False)
         
