@@ -25,9 +25,22 @@ class mainActions:
     def customGoHome(self):
         
         armHandle = self._armHandle
-        armHandle.set_position(425, 0, 100, -180, 0, 0,
+        
+        
+#        armHandle.set_mode(1)
+        
+#        armHandle.set_servo_angle(angle = [0,0,0,45,0,45,0],speed = 10,mvacc = 1)
+        
+        armHandle.set_position(250, 0, 150, -180, 0, 0,
                                speed = 100 ,mvacc = 100,
                                wait=True,is_radian  = False)
+        
+        
+        armHandle.set_gripper_position(100, wait=True)
+#        armHandle.set_mode(0)
+        
+        
+        pass
         
         
     def holdObject(self,value):
@@ -51,12 +64,45 @@ class mainActions:
         pass
     
     
-    def traverseWithGripperHorizontal(self,startPos,endPose,wait = True):
+    def _achieveHorizontalGripperPos(self,startPos):
+        
+        
+        
+        armHandle = self._armHandle
+        
+        if startPos[1] > 0:
+        
+            xRoll = -90
+            y = 20
+        
+        ## if y is -ve
+        elif  startPos[1] <= 0:
+            
+            xRoll = 90
+            y = -20
+            
+        
+        ###a
+        armHandle.set_position(250,y,400,-180,90,0,  wait=True,is_radian  = False)
+        
+        
+        armHandle.set_position(250,y,400,xRoll,90,0,  wait=True,is_radian  = False)
+        
+        
+        
+        ## return orientation
+        return armHandle.get_position(is_radian = False)[1][3:]
+    
+    
+    
+    def horizontalPickAndPlace(self,startPos,endPose,wait = True):
         
         
         armHandle = self._armHandle
         
         
+        
+        self._achieveHorizontalGripperPos(startPos)
         
         ## if y is +ve
         if startPos[1] > 0:
@@ -65,19 +111,12 @@ class mainActions:
         
         
         ## if y is -ve
-        elif  startPos[1] < 0:
+        elif  startPos[1] <= 0:
             
             xRoll = 90
         
+    
         
-        elif  startPos[1] == 0:
-            
-            xRoll = 180
-        
-        ##over ridding orientations
-        ## assisting x axis rotation roll
-        startPos[3:] = [-180,90,0]
-        armHandle.set_position(*startPos,  wait=wait,is_radian  = False)
         
         
         ##first pos
@@ -91,7 +130,7 @@ class mainActions:
         pass
     
     
-    def traverseWithGripperVertical(self,startPos,endPose,wait = True):
+    def verticalPickAndPlace(self,startPos,endPose,wait = True):
         
         """
         Orientation should and change
@@ -119,16 +158,15 @@ class mainActions:
         in the direction of approach to grab the object
         
         """
-        # armHandle = self._armHandle
-        #
-        #
-        # armHandle.set_position(**kwargs,relative = True)
-        #
+        armHandle = self._armHandle
+
+        armHandle.set_position(**kwargs,relative = True,wait = True)
+
         
         
         pass
         
-        
+    
         
 if __name__ == '__main__':
     

@@ -28,7 +28,7 @@ class cookingActions:
         pass
     
     
-    def stir(self,circleCenterWithOrient,speed,radius,numTimes,wait):
+    def stir(self,speed,radius,numTimes,wait):
         
         
         """
@@ -36,6 +36,9 @@ class cookingActions:
         
         """
         armHandle = self._armHandle
+        
+        
+        circleCenterWithOrient = armHandle.get_position(is_radian=False)[1]
         
         initPosition = list(circleCenterWithOrient)
         initPosition[1]  = initPosition[1] - radius ## change y go up by radius
@@ -152,77 +155,8 @@ class cookingActions:
         
         pass
     
-    
-    def horizontalPickAndPlace(self,startPos,endPose,wait):
-        """
-        Orientation should and change
-        Overrides orienations
-        """
-        
-        
-        
-        armHandle = self._armHandle
-        
-        
-        
-        ## if y is +ve
-        if startPos[1] > 0:
-        
-            xRoll = -90
-        
-        
-        ## if y is -ve
-        elif  startPos[1] < 0:
-            
-            xRoll = 90
-        
-        
-        elif  startPos[1] == 0:
-            
-            xRoll = 180
-        
-        ##over ridding orientations
-        ## assisting x axis rotation roll
-        startPos[3:] = [-180,90,0]
-        
-        
-        
-        armHandle.set_position(*startPos,  wait=wait,is_radian  = False)
-        
-        startPos[3:] = [xRoll,90,0]
-        
-        
-        armHandle.set_position(*startPos,  wait=wait,is_radian  = False)
-        
-        
-        endPose[3:] = [xRoll,90,0]
-        armHandle.set_position(*endPose,  wait=wait,is_radian  = False)
-        
-        
-      
-        
-        
-        
-        pass
-    
-    def verticalPickAndPlace(self,startPos,endPose,wait):
-        
-        """
-        Orientation should and change
-        Overrides orienations
-        """
-        armHandle = self._armHandle
-        
-        
-        ##over ridding orientations
-        startPos[3:] = [-180,0,0]
-        endPose[3:] = [-180,0,0]
-        
-        
-        armHandle.set_position(*startPos,  wait=wait,is_radian  = False)
-        
-        armHandle.set_position(*endPose,  wait=wait,is_radian  = False)
-        pass
+
+
         
         
         
