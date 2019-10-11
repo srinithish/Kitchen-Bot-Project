@@ -119,12 +119,11 @@ class mainActions:
         in the direction of approach to grab the object
         
         """
-        armHandle = self._armHandle
-        
-        
-        
-        armHandle.set_position(**kwargs,relative = True)
-        
+        # armHandle = self._armHandle
+        #
+        #
+        # armHandle.set_position(**kwargs,relative = True)
+        #
         
         
         pass

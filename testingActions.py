@@ -4,6 +4,7 @@ import time
 
 from cookingActions import cookingActions
 from cookingActions2 import cookingActions2
+from mainActions import mainActions
 from xarm.wrapper import XArmAPI
 from configparser import ConfigParser
 
@@ -38,17 +39,16 @@ arm.set_state(state=0)
 
 ## actions here
 myCkAct = cookingActions(arm)
-myCkAct2= cookingActions2(arm)
+myCkAct2 = cookingActions2(arm)
+myCkAct3 = mainActions(arm)
+
+myCkAct3.customGoHome()
 
 
 #arm.set_position(256,0,200,-180,0,0,speed = 1000,mvacc=100, wait = True,is_radian=False)
 
 #arm.set_position(400,0,400,-180,0,0,speed = 400,mvacc=2000, wait = True,is_radian=False)
 #arm.set_position(pitch = -90,speed = 100,mvacc=100, wait = True,is_radian=False,relative=True)
-
-
-
-arm.move_gohome()
 
 #arm.set_position(300,0,300,-180,0,0,speed = 50,mvacc=100, wait = True,is_radian=False)
 
@@ -62,8 +62,8 @@ arm.move_gohome()
 
 # arm.set_position(256,0,400,-180,90,0,speed = 500,mvacc=2000, wait = True,is_radian=False)
 #print(arm.g,arm.last_used_tcp_speed)
-#myCkAct.stir([550,0,200,-180,-90,0],speed = 100,radius = 50,numTimes=5,wait = True)
-# arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+#myCkAct.stir([550,0,400,-180,-90,0],speed = 100,radius = 50,numTimes=5,wait = True)
+#arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
 #
 # myCkAct2.stirWithOrient([500,0,200,-180,0,0],orient = 20,speed = 200,mvacc=100, radius = 50,numTimes=5,wait = True)
 # arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
@@ -79,10 +79,10 @@ arm.move_gohome()
 
 #myCkAct.sprinkle([400,0,400,-180,-45,0], numTimes = 2,speed=1000,mvacc=2000,wait = True)
 
-myCkAct.horizontalPickAndPlace([300,-50,200,-180,0,0],[300,-50,400,-180,0,0],wait = True)
+myCkAct.horizontalPickAndPlace([400,50,400,-180,0,0],[300,-50,400,-180,0,0],wait = True)
+myCkAct.pour(pourDegree=30,speed = 100,mvacc=100,wait=True)
 
-#myCkAct.pour(pourDegree=30,speed = 100,mvacc=100,wait=True)
-myCkAct.stir(arm.get_position(is_radian=False)[1],speed = 100,radius = 50,numTimes=5,wait = True)
+#myCkAct.stir(arm.get_position(is_radian=False)[1],speed = 100,radius = 50,numTimes=5,wait = True)
 #arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 100, wait = True)
 
 #time.sleep(5)
