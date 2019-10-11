@@ -40,17 +40,18 @@ arm.set_state(state=0)
 ## actions here
 myCkAct = cookingActions(arm)
 myCkAct2 = cookingActions2(arm)
-myCkAct3 = mainActions(arm)
+myMainAct = mainActions(arm)
 
-myCkAct3.customGoHome()
-
-arm.set_gripper_position(100, wait=True)
-time.sleep(5)
-arm.set_gripper_position(-10, wait=True)
+myMainAct.customGoHome()
+#
+#arm.set_gripper_position(100, wait=True)
+#time.sleep(5)
+#myMainAct.holdObject(400)
+#time.sleep(5)
+#myMainAct.releaseObject()
 
 
 #arm.set_position(450,0,400,-180,-45, wait = True)
-
 
 
 #print(arm.g,arm.last_used_tcp_speed)
@@ -70,9 +71,10 @@ arm.set_gripper_position(-10, wait=True)
 # arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
 
 #myCkAct.sprinkle([400,0,400,-180,-45,0], numTimes = 2,speed=1000,mvacc=2000,wait = True)
+print(arm.last_used_tcp_speed)
+myCkAct.horizontalPickAndPlace([250,-50,400,-180,0,0],[250,-50,400,-180,0,0],wait = True)
 
-# myCkAct.horizontalPickAndPlace([400,50,400,-180,0,0],[300,-50,400,-180,0,0],wait = True)
-# myCkAct.pour(pourDegree=30,speed = 100,mvacc=100,wait=True)
+#myCkAct.pour(pourDegree=30,speed = 100,mvacc=100,wait=True)
 
 #myCkAct.stir(arm.get_position(is_radian=False)[1],speed = 100,radius = 50,numTimes=5,wait = True)
 #arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 100, wait = True)

@@ -46,7 +46,7 @@ class mainActions:
         releases the object completely
         """
         armHandle = self._armHandle
-        armHandle.set_gripper_position(600, wait=True)
+        armHandle.set_gripper_position(800, wait=True)
         
         pass
     
