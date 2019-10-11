@@ -25,7 +25,7 @@ class mainActions:
     def customGoHome(self):
         
         armHandle = self._armHandle
-        armHandle.set_position(201.5, 0, 300, -180, 0, 0,
+        armHandle.set_position(425, 0, 275, -180, 0, 0,
                                speed = 100 ,mvacc = 100,
                                wait=True,is_radian  = False)
         
