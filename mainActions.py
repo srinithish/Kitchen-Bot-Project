@@ -25,7 +25,7 @@ class mainActions:
     def customGoHome(self):
         
         armHandle = self._armHandle
-        armHandle.set_position(425, 0, 275, -180, 0, 0,
+        armHandle.set_position(425, 0, 100, -180, 0, 0,
                                speed = 100 ,mvacc = 100,
                                wait=True,is_radian  = False)
         
@@ -37,7 +37,7 @@ class mainActions:
         """
         
         armHandle = self._armHandle
-        armHandle.set_gripper_position(600, wait=True)
+        armHandle.set_gripper_position(value, wait=True)
         pass
     
     def releaseObject(self):

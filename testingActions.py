@@ -9,7 +9,7 @@ from xarm.wrapper import XArmAPI
 from configparser import ConfigParser
 
 parser = ConfigParser()
-parser.read('./robot2.conf')
+parser.read('./robot1.conf')
 
 ip = parser.get('xArm', 'ip')
 
@@ -43,28 +43,19 @@ myCkAct2 = cookingActions2(arm)
 myCkAct3 = mainActions(arm)
 
 myCkAct3.customGoHome()
+
 arm.set_gripper_position(100, wait=True)
+time.sleep(5)
+arm.set_gripper_position(-10, wait=True)
 
 
-#arm.set_position(256,0,200,-180,0,0,speed = 1000,mvacc=100, wait = True,is_radian=False)
-
-#arm.set_position(400,0,400,-180,0,0,speed = 400,mvacc=2000, wait = True,is_radian=False)
-#arm.set_position(pitch = -90,speed = 100,mvacc=100, wait = True,is_radian=False,relative=True)
-
-#arm.set_position(300,0,300,-180,0,0,speed = 50,mvacc=100, wait = True,is_radian=False)
-
-#arm.set_position(400,100,100,-90,90,0,speed = 50,mvacc=100, wait = True,is_radian=False)
-
-#arm.set_position(400,0,100,-90,90,-90,speed = 50,mvacc=100, wait = True,is_radian=False)
+#arm.set_position(450,0,400,-180,-45, wait = True)
 
 
-#arm.set_position(z = -40,speed = 100,mvacc=100, wait = True,is_radian=False,relative=True)
 
-
-# arm.set_position(256,0,400,-180,90,0,speed = 500,mvacc=2000, wait = True,is_radian=False)
 #print(arm.g,arm.last_used_tcp_speed)
 #myCkAct.stir([550,0,400,-180,-90,0],speed = 100,radius = 50,numTimes=5,wait = True)
-#arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
+
 #
 # myCkAct2.stirWithOrient([500,0,200,-180,0,0],orient = 20,speed = 200,mvacc=100, radius = 50,numTimes=5,wait = True)
 # arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 50, wait = True)
