@@ -26,7 +26,7 @@ class Action():
     
     def __repr__(self):
         
-        return 'action is : {} and object is : {}'.format(self.verb,self.object)
+        return 'action: {}   and   object: {}'.format(self.verb,self.object)
         
     def __eq__(self,other):
         
@@ -64,20 +64,16 @@ def triggerHotWord(recognizer, audio):                          # this is called
 class customListener():
     
     
-    def __init__(self):
+    def __init__(self,actionList):
         
         self.commandQueue = queue.Queue()
-        
+        self.possibleActions = actionList
         
         pass
         
     def parseSpokenText(self,recognizer, audio):
             ## define all possible actions
-            makePepperoni = Action('make','pepperoni')
-            getPepperoni = Action('get','pepperoni')
-            possibleActions = [makePepperoni,getPepperoni]
-            
-            
+                       
             
             try: 
     #            text = r.recognize_sphinx(audio) 
@@ -90,13 +86,13 @@ class customListener():
     #                         text,re.IGNORECASE)
                 
                 
-                m = re.match("(?:Hello|Hey) robot (?P<verb>.*) me a (?P<object>.*)", 
+                m = re.match("(?:Hello|Hey) robot (?P<verb>.*) me (?P<object>.*)", 
                              text,re.IGNORECASE)
                 
     #            print(m.group('verb'),'  ',m.group('object'))
                 commandedAction = Action(m.group('verb'),m.group('object'))
                 
-                if commandedAction in possibleActions:
+                if commandedAction in self.possibleActions:
                     print (commandedAction)
                     voiceFeedback.playClip('./audioCaptures/gotIt.mp3')
                     
@@ -146,7 +142,11 @@ if __name__ == '__main__':
     usage python threadedSpeechRecognition.py
     """
     
-    listener = customListener()
+    ## create action list
+    makeNoodles = Action('make','noodles')
+    possibleActions = [makeNoodles]
+    
+    listener = customListener(possibleActions)
     r = sr.Recognizer()
     source  = sr.Microphone()
     stopper = r.listen_in_background(source,listener.parseSpokenText,phrase_time_limit=6) ### returns stopper

@@ -21,7 +21,9 @@ class mainActions:
         """
         @params: 
             armHandle : required
+            
             wait: default True
+            
             speed: default 100
             
             mvacc: default 100
@@ -103,6 +105,8 @@ class mainActions:
         """
         Takes in start position that it wants to reach and decides the attitude to be
         negative Y or positive y
+        
+        Always reaches 250,y,400 and performs action
         
         @params:
             startPos: [x,y,z,attituted] uses only to decide the direiton of change
@@ -347,6 +351,7 @@ class mainActions:
         
         
         """
+        Traverse to the new location continuing present attitude
         @ params:
             endPosOnlyList : [x,y,z] 
             

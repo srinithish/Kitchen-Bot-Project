@@ -11,10 +11,10 @@ from xarm.wrapper import XArmAPI
 
 #import numpy as np
 
+import mainActions
 
 
-
-class cookingActions:
+class cookingActions():
     
     def __init__(self,armHandle):
         
@@ -32,7 +32,7 @@ class cookingActions:
         
         
         """
-        assumes the TCP is at the center but only differeing by z
+        assumes the TCP is at the center positioned
         
         """
         armHandle = self._armHandle
