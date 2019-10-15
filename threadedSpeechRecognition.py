@@ -8,8 +8,8 @@ Created on Fri Aug 30 11:41:57 2019
 import speech_recognition as sr
 import re
 import voiceFeedback
-
-
+import queue
+import time
 
 class Action():
     
@@ -35,8 +35,7 @@ class Action():
     
     
     
-r = sr.Recognizer()
-source  = sr.Microphone()
+
 
 def triggerHotWord(recognizer, audio):                          # this is called from the background thread
     try:
@@ -61,69 +60,82 @@ def triggerHotWord(recognizer, audio):                          # this is called
         print("Oops! Didn't catch that")
         return False
         
-def parseSpokenText(recognizer, audio):
-        ## define all possible actions
-        makePepperoni = Action('make','pepperoni')
-        getPepperoni = Action('get','pepperoni')
-        possibleActions = [makePepperoni,getPepperoni]
+    
+class customListener():
+    
+    
+    def __init__(self):
+        
+        self.commandQueue = queue.Queue()
         
         
-        try: 
-            text = r.recognize_sphinx(audio) 
-#            text = r.recognize_google(audio) 
-            print ("you said: " ,text)
-#            m = re.match("(?:Hello|Hey).*(?:robot|bot).*(?:get|give).*me (.*)", 
-#                         text,re.IGNORECASE)   
-            
-#            m = re.match("(?:Hello|Hey) robot (?P<verb>.*) me a (?P<object>.*)", 
-#                         text,re.IGNORECASE)
+        pass
+        
+    def parseSpokenText(self,recognizer, audio):
+            ## define all possible actions
+            makePepperoni = Action('make','pepperoni')
+            getPepperoni = Action('get','pepperoni')
+            possibleActions = [makePepperoni,getPepperoni]
             
             
-            m = re.match("(?:Hello|Hey) robot (?P<verb>.*) me a (?P<object>.*)", 
-                         text,re.IGNORECASE)
             
-#            print(m.group('verb'),'  ',m.group('object'))
-            commandedAction = Action(m.group('verb'),m.group('object'))
-            
-            if commandedAction in possibleActions:
-                print (commandedAction)
-                voiceFeedback.playClip('./audioCaptures/gotIt.mp3')
+            try: 
+    #            text = r.recognize_sphinx(audio) 
+                text = recognizer.recognize_google(audio) 
+                print ("you said: " ,text)
+    #            m = re.match("(?:Hello|Hey).*(?:robot|bot).*(?:get|give).*me (.*)", 
+    #                         text,re.IGNORECASE)   
+                
+    #            m = re.match("(?:Hello|Hey) robot (?P<verb>.*) me a (?P<object>.*)", 
+    #                         text,re.IGNORECASE)
                 
                 
-                return commandedAction
-            
-            
-            else:
-                print('matched the pattern but not recognised command')
-                raise AttributeError
+                m = re.match("(?:Hello|Hey) robot (?P<verb>.*) me a (?P<object>.*)", 
+                             text,re.IGNORECASE)
+                
+    #            print(m.group('verb'),'  ',m.group('object'))
+                commandedAction = Action(m.group('verb'),m.group('object'))
+                
+                if commandedAction in possibleActions:
+                    print (commandedAction)
+                    voiceFeedback.playClip('./audioCaptures/gotIt.mp3')
                     
+                    self.commandQueue.put(commandedAction)
+                    
+                    return commandedAction
+                
+                
+                else:
+                    print('matched the pattern but not recognised command')
+                    raise AttributeError
+                        
+                
+                
+            #error occurs when google could not understand what was said 
+              
+    #        except sr.UnknownValueError as e: 
+    #            print("Google Speech Recognition could not understand audio") 
+    #            
+    #        
+    #        except sr.WaitTimeoutError:
+    #            print("Google Speech Recognition timeout error") 
+    #            
+    #            
+    #        
+    #        except sr.RequestError as e: 
+    #            print("Could not request results from Google\
+    #                                     Speech Recognition service {}".format(e)) 
             
             
-        #error occurs when google could not understand what was said 
-          
-#        except sr.UnknownValueError as e: 
-#            print("Google Speech Recognition could not understand audio") 
-#            
-#        
-#        except sr.WaitTimeoutError:
-#            print("Google Speech Recognition timeout error") 
-#            
-#            
-#        
-#        except sr.RequestError as e: 
-#            print("Could not request results from Google\
-#                                     Speech Recognition service {}".format(e)) 
-        
-        
-        except AttributeError:
-            ###not mathing the pattern at all
-            print('Not a recognised command')
-            voiceFeedback.playClip('./audioCaptures/didntGetThat.mp3')
-            
-        except Exception as e :
-            ## all other exceptions
-            print(e)
-            return None
+            except AttributeError:
+                ###not mathing the pattern at all
+                print('Not a recognised command')
+                voiceFeedback.playClip('./audioCaptures/didntGetThat.mp3')
+                
+            except Exception as e :
+                ## all other exceptions
+                print(e)
+                return None
 
 
 
@@ -134,9 +146,18 @@ if __name__ == '__main__':
     usage python threadedSpeechRecognition.py
     """
     
-    r.listen_in_background(source,parseSpokenText,phrase_time_limit=6) ### returns stopper
+    listener = customListener()
+    r = sr.Recognizer()
+    source  = sr.Microphone()
+    stopper = r.listen_in_background(source,listener.parseSpokenText,phrase_time_limit=6) ### returns stopper
     
     
     ##main therad keeps active the backgroound thread
-    import time
-    while True: time.sleep(0.1)  
+
+    while True: 
+        time.sleep(0.1)
+        if listener.commandQueue.empty() == False:
+            stopper()
+            ## call the robot start
+            print('start the task')
+            break

@@ -49,44 +49,54 @@ myMainAct.customGoHome()
 print(arm.last_used_joint_acc,arm.last_used_joint_speed)
 
 """
-Pick handle
+Pick handle and stir
 """
 
 
-
 arm.set_position(510,-225,100,-180,0,0,speed = 100, mvacc = 100, wait = True)
 
-myMainAct.holdObject(300)
 
-myMainAct.approach(z = -100)
-
-myMainAct.holdObject(0)
-
-myMainAct.approach(z = 300)
-
-angles = myMainAct._achieveHorizontalGripperPos([500,0,300,-180,0,0])
-
-arm.set_position(500,0,450,*angles,speed = 100, mvacc = 100, wait = True)
-
-
+myMainAct.verticalPick([510,-225,100,-180,0,0],{'z':-100},(300,0))
+myMainAct.approach(z = 200)
+myMainAct._achieveHorizontalGripperPos([500,0,300,-180,0,0])
+myMainAct.traverseWithPrevAttitude([500,0,450])
 myMainAct.approach(z = -150)
-#myCkAct.pour(pourDegree=30,speed = 100,mvacc=100,wait=True)
-#
-#
-
-myCkAct.stir(speed = 100,radius = 50,numTimes=5,wait = True)
+myCkAct.stir(speed = 200,radius = 50,numTimes=5,wait = True)
 
 ## get back to vertical position
-arm.set_position(500,0,400,-180,0,0,speed = 50, mvacc = 100, wait = True)
+myMainAct._achieveVerticalGripperPos([500,0,400,-180,0,0])
 
-arm.set_position(510,-225,100,-180,0,0,speed = 100, mvacc = 100, wait = True)
-myMainAct.approach(z = -100)
+myMainAct.verticalPlace([510,-225,100,-180,0,0],{'z':-100},300)
 
-myMainAct.holdObject(300)
-myMainAct.approach(z = 300)
+myMainAct.approach(z = 200)
 #arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 100, wait = True)
 
 #time.sleep(5)
 #arm.move_gohome()
 #myMainAct.customGoHome()
+
+
+"""
+pick glass and pour
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 arm.disconnect()
