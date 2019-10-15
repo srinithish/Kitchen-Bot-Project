@@ -60,8 +60,8 @@ myMainAct.verticalPick([510,-225,100,-180,0,0],{'z':-100},(300,0))
 myMainAct.approach(z = 200)
 myMainAct._achieveHorizontalGripperPos([500,0,300,-180,0,0])
 myMainAct.traverseWithPrevAttitude([500,0,450])
-myMainAct.approach(z = -150)
-myCkAct.stir(speed = 200,radius = 50,numTimes=5,wait = True)
+myMainAct.approach(z = -120)
+myCkAct.stir(speed = 100,radius = 50,numTimes=5,wait = True)
 
 ## get back to vertical position
 myMainAct._achieveVerticalGripperPos([500,0,400,-180,0,0])
@@ -71,9 +71,8 @@ myMainAct.verticalPlace([510,-225,100,-180,0,0],{'z':-100},300)
 myMainAct.approach(z = 200)
 #arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 100, wait = True)
 
-#time.sleep(5)
-#arm.move_gohome()
-#myMainAct.customGoHome()
+
+myMainAct.customGoHome()
 
 
 """
@@ -82,9 +81,17 @@ pick glass and pour
 """
 
 
+myMainAct.horizontalPick([293,-225,50,-180,0,0],{'y':-100},
+                               (900,700),
+                               speed = None,mvacc=None,wait = None)
+myMainAct.approach(z = 200)
 
+myMainAct.traverseWithPrevAttitude([380,0,350])
+myCkAct.pour(-100,speed=100,mvacc=20,wait=True)
 
-
+myMainAct.approach(x= -100)
+myMainAct.horizontalPlace([293,-325,50,-180,0,0],{'y':-100},900)
+myMainAct.customGoHome()
 
 
 

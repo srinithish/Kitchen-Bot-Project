@@ -65,7 +65,7 @@ class mainActions:
         
 #        armHandle.set_mode(0)
         armHandle.set_position(250, 0, 150, -180, 0, 0,
-                               speed = 100 ,mvacc = 100,
+                               speed = 100 ,mvacc = 10,
                                wait=True,is_radian  = False)
         
         
@@ -126,11 +126,11 @@ class mainActions:
         ###a
         
         ## TODO : check these speeds and mvacc for valididty and change y if reqired
-        armHandle.set_position(250,y,400,-180,90,0,speed  = 100,mvacc = 10,
+        armHandle.set_position(250,y,400,-180,90,0,speed  = 50,mvacc = 10,
                                wait=True,is_radian  = False)
         
         
-        armHandle.set_position(250,y,400,xRoll,90,0,speed  = 100,mvacc = 10,
+        armHandle.set_position(250,y,400,xRoll,90,0,speed  = 50,mvacc = 10,
                                wait=True,is_radian  = False)
         
         
@@ -185,7 +185,7 @@ class mainActions:
         armHandle = self._armHandle
         
         ##speed, mvacc, wait overridden with defauls if not provided
-        speed,mvacc,wait = self._getDefaults(speed,mvacc,wait)
+        speed,mvacc,wait = self._getDefaults(speed=speed,mvacc=mvacc,wait=wait)
         
         
         ##horizaontal position achieved
@@ -223,7 +223,7 @@ class mainActions:
     
     
     def horizontalPlace(self,endPose,approachAfterEnd,
-                               gripHoldValue = 600,
+                               gripHoldValue,
                                speed = None,mvacc=None,wait = None):
         
         
@@ -240,7 +240,7 @@ class mainActions:
         armHandle = self._armHandle
         
         ##speed, mvacc, wait overridden with defauls if not provided
-        speed,mvacc,wait = self._getDefaults(speed,mvacc,wait)
+        speed,mvacc,wait = self._getDefaults(speed=speed,mvacc=mvacc,wait=wait)
         
         ### assumes horizontal Pick was performed
         horizontalPosAngles = armHandle.get_position(is_radian = False)[1][3:]
@@ -265,7 +265,7 @@ class mainActions:
         
         reverseApproachAfterStart = {key:-value for key,value in approachAfterEnd.items()}
         self.approach(**reverseApproachAfterStart)
-        
+
     
         return armHandle.get_position(is_radian = False)[1]
         
@@ -287,7 +287,7 @@ class mainActions:
         """
         
         armHandle = self._armHandle
-        speed,mvacc,wait = self._getDefaults(speed,mvacc,wait)
+        speed,mvacc,wait = self._getDefaults(speed=speed,mvacc = mvacc, wait = wait)
         
         ##before gripper position
         self.holdObject(gripHoldValues[0]) 
@@ -320,7 +320,7 @@ class mainActions:
         assumes already holding an object
         """
         armHandle = self._armHandle
-        speed,mvacc,wait = self._getDefaults(speed,mvacc,wait)
+        speed,mvacc,wait = self._getDefaults(speed=speed,mvacc=mvacc,wait=wait)
 
         ##go to end position
         endPose[3:] = [-180,0,0]
@@ -354,7 +354,7 @@ class mainActions:
             
         """
         armHandle = self._armHandle
-        speed,mvacc,wait = self._getDefaults(speed,mvacc,wait)
+        speed,mvacc,wait = self._getDefaults(speed = speed,mvacc = mvacc,wait = wait)
         
         prevAttitutde = armHandle.get_position(is_radian = False)[1][3:]
         
@@ -396,7 +396,7 @@ if __name__ == '__main__':
     
     myAct = mainActions('hello')
 #    myAct.approach(x=200)
-    myAct._getDefaults(speed = 200)
+    myAct._getDefaults(speed = 200,mvacc = 100, wait =True)
     
     
     

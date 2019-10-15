@@ -144,13 +144,13 @@ class cookingActions:
 
 
         # TODO: yet to decide roll or pitch or yaw
-        armHandle.set_position(pitch = pourDegree, relative=True, wait=wait,is_radian  = False)
+        armHandle.set_position(pitch = pourDegree, relative=True,speed=speed, mvacc =mvacc, wait=wait,is_radian  = False)
         
 #        armHandle.set_position(400,0,400,-130,80,0, relative=False, wait=wait,is_radian  = False)
         
         
         ## depour
-        armHandle.set_position(pitch = -pourDegree, relative=True, wait=wait,is_radian  = False)
+        armHandle.set_position(pitch = -pourDegree, relative=True, speed= speed,mvacc= mvacc,wait=wait,is_radian  = False)
         
         
         pass
