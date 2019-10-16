@@ -171,8 +171,8 @@ def listenAndPerformActions(possibleActions):
     r = sr.Recognizer()
     mic_list = sr.Microphone.list_microphone_names() 
     
-    mic_list.index('Microphone (UM02)')
-    source  = sr.Microphone(device_index=1)
+    deviceIndex= mic_list.index('Microphone (UM02)')
+    source  = sr.Microphone(device_index=deviceIndex)
 #    r.adjust_for_ambient_noise(source) 
     
     stopper = r.listen_in_background(source,listener.parseSpokenText,phrase_time_limit=6) ### returns stopper
