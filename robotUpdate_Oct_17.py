@@ -40,7 +40,7 @@ arm.set_state(state=0)
 ## actions here
 myCkAct = cookingActions(arm)
 myCkAct2 = cookingActions2(arm)
-myMainAct = mainActions(arm)
+myMainAct = mainActions(arm,speed = 200)
 
 
 
@@ -69,7 +69,7 @@ myMainAct._achieveVerticalGripperPos([500,0,400,-180,0,0])
 myMainAct.verticalPlace([510,-225,100,-180,0,0],{'z':-100},300)
 
 myMainAct.approach(z = 200)
-#arm.set_position(256,0,200,-180,0,0,speed = 100, mvacc = 100, wait = True)
+
 
 
 myMainAct.customGoHome()
@@ -82,9 +82,8 @@ pick glass and pour
 
 
 myMainAct.horizontalPick([293,-225,50,-180,0,0],{'y':-100},
-                               (900,700),
-                               speed = None,mvacc=None,wait = None)
-myMainAct.approach(z = 200)
+                               (900,700))
+#myMainAct.approach(z = 200)
 
 myMainAct.traverseWithPrevAttitude([380,0,350])
 myCkAct.pour(-100,speed=100,mvacc=20,wait=True)

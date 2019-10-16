@@ -184,6 +184,7 @@ class mainActions:
             
             approachAfterStart: dict of what movements to make relative {x:100,y:100}
             
+            gripHoldValues: tuple(startGripper,endGripper)
         """
         
         armHandle = self._armHandle
@@ -211,6 +212,10 @@ class mainActions:
         
         ###hold the object
         self.holdObject(gripHoldValues[1])
+        
+        
+        ###lift the object of the surface
+        self.approach(z= -50)
         
         
         ###go back by approach
