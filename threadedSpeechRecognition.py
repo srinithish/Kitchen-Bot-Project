@@ -116,7 +116,10 @@ class customListener():
     #                         text,re.IGNORECASE)
                 
                 
-                m = re.match("(?:Hello|Hey) (?P<phrase>.*)", 
+#                m = re.match("(?:Hello|Hey) (?P<phrase>.*)", 
+#                             text,re.IGNORECASE)
+                
+                m = re.match("(?P<phrase>.*)", 
                              text,re.IGNORECASE)
                 
     #            print(m.group('verb'),'  ',m.group('object'))
@@ -190,7 +193,7 @@ if __name__ == '__main__':
     usage python threadedSpeechRecognition.py
     """
     
-    
+
 
     ## create action list
     makeNoodles = Action(['make','noodles'],lambda: print("Sure"))
@@ -205,7 +208,8 @@ if __name__ == '__main__':
     possibleActions = [makeNoodles,stirAction,pourAction,
                        switchOnStove,stopRobotAction,pauseRobotAction]
     
-    listener = listenAndPerformActions(possibleActions)
+    listener= listenAndPerformActions(possibleActions)
+    listener.possibleActions
     ##main therad keeps active the backgroound thread
 
     while True: 

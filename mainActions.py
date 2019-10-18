@@ -351,10 +351,8 @@ class mainActions:
         armHandle = self._armHandle
         speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
         
-        print(speed,mvacc,wait)
-
         prevAttitutde = armHandle.get_position(is_radian=False)[1][3:]
-
+        
         armHandle.set_position(*endPosOnlyList, *prevAttitutde,
                                speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
 

@@ -124,7 +124,7 @@ class cookingActions(mainActions):
         
         
         
-        armHandle.set_position(pitch = -90,speed = speed,mvacc=mvacc, wait=wait,
+        armHandle.set_position(pitch = -30,speed = speed,mvacc=mvacc, wait=wait,
                                is_radian  = False,relative=True)
         
         
@@ -148,7 +148,7 @@ class cookingActions(mainActions):
 #                                   speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
          
         ##bring it back to vertical position
-        armHandle.set_position(pitch = 90,speed = speed,mvacc=mvacc, wait=wait,
+        armHandle.set_position(pitch = 30,speed = speed,mvacc=mvacc, wait=wait,
                                is_radian  = False,relative=True)
             
         pass
