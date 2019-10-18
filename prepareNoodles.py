@@ -64,6 +64,26 @@ myCkAct2.customGoHome(wait=True)
 
 
 
+
+
+"""
+hold the pan
+
+"""
+
+
+myCkAct2.customGoHome()
+myCkAct2.releaseObject()
+arm2.set_position(500,0,130,-180,0,0,wait=True)
+myCkAct2.holdObject(200)
+
+"""
+release pan and go back
+"""
+myCkAct2.releaseObject()
+myCkAct2.customGoHome()
+
+
 """
 Sprinkle salt
 
