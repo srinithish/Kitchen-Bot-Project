@@ -53,8 +53,8 @@ arm2 = initialiseArms(ip2)
 
 
 ## actions here
-myCkAct1 = cookingActions(arm1,speed = 100,wait = True)
-myCkAct2 = cookingActions(arm2,speed = 100,wait = True)
+myCkAct1 = cookingActions(arm1,speed = 900,mvacc = 900,wait = True)
+myCkAct2 = cookingActions(arm2,speed = 900,mvacc = 900,wait = True)
 
 
 
@@ -63,25 +63,71 @@ myCkAct1.customGoHome(wait=True)
 myCkAct2.customGoHome(wait=True)
 
 
+"""
+switch the stove on
+"""
+myCkAct1.customGoHome()
 
+arm1.set_position(499,-200,250,-180,0,0,speed = 100, mvacc = 100, wait = True)
+arm1.set_position(yaw= -90, relative=True, wait =True,is_radian  = False)
+arm1.set_position(pitch= 54, relative=True, wait =True,is_radian  = False)
+arm1.set_gripper_position(200, wait=True)
+myCkAct1.approach(z= -215)
+myCkAct1.approach(y= 87)
+
+arm1.set_gripper_position(110, wait=True)
+
+code,angles = arm1.get_servo_angle(is_radian=False)
+angles1= angles[:-1] + [angles[-1]+90]
+
+arm1.set_servo_angle( angle=angles1,
+                     speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)
+
+arm1.set_gripper_position(500, wait=True)
+
+arm1.set_servo_angle( angle=angles,
+                     speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)
+
+arm1.set_gripper_position(500, wait=True)
+
+myCkAct1.traverseWithPrevAttitude([499,-150,35])
+
+myCkAct1.approach(z= 100)
+
+myCkAct1.customGoHome()
 
 
 """
-hold the pan
+pick glass and pour
 
 """
+#
+
+#####robot 1
+myCkAct1.customGoHome()
+myCkAct1.horizontalPick([293,-325,50,-180,0,0],{'y':-100},
+                                (900,700))
+
+myCkAct1.traverseWithPrevAttitude([380,0,350])
+myCkAct1.pour(-100,speed=100,mvacc=20)
+
+myCkAct1.horizontalPlace([293,-325,50,-180,0,0],{'y':-100},900)
+myCkAct1.customGoHome()
 
 
+#######robot2
 myCkAct2.customGoHome()
-myCkAct2.releaseObject()
-arm2.set_position(500,0,130,-180,0,0,wait=True)
-myCkAct2.holdObject(200)
-
-"""
-release pan and go back
-"""
-myCkAct2.releaseObject()
+myCkAct2.horizontalPick([293,-325,50,-180,0,0],{'y':-100},
+                                (900,700))
+myCkAct2.approach(z=200) ##use only for robot2
+myCkAct2.traverseWithPrevAttitude([600,0,350])
+myCkAct2.pour(-100,speed=100,mvacc=20)
+myCkAct2.approach(x=-200) ## use ony for robot1
+myCkAct2.horizontalPlace([293,-325,50,-180,0,0],{'y':-100},900)
 myCkAct2.customGoHome()
+
+
+
 
 
 """
@@ -148,6 +194,23 @@ arm2.set_position(670,0,220,-180,0,0,wait=True)
 myCkAct2.releaseObject()
 myCkAct2.customGoHome()
 
+
+
+
+
+
+"""
+hold the pan
+
+"""
+
+
+myCkAct2.customGoHome()
+myCkAct2.releaseObject()
+arm2.set_position(500,0,130,-180,0,0,wait=True)
+myCkAct2.holdObject(200)
+
+
 """
 Pick handle and stir
 """
@@ -169,74 +232,18 @@ myCkAct1.verticalPlace([510,-225,0,-180,0,0],{'z':-200},300)
 
 myCkAct1.customGoHome()
 
-
 """
-pick glass and pour
-
+release pan and go back
 """
-#
-
-#####robot 1
-myCkAct1.customGoHome()
-myCkAct1.horizontalPick([293,-325,50,-180,0,0],{'y':-100},
-                                (900,700))
-
-myCkAct1.traverseWithPrevAttitude([600,0,350])
-myCkAct1.pour(-100,speed=100,mvacc=20)
-
-myCkAct1.horizontalPlace([293,-325,50,-180,0,0],{'y':-100},900)
-myCkAct1.customGoHome()
-
-
-#######robot2
-myCkAct2.customGoHome()
-myCkAct2.horizontalPick([293,-325,50,-180,0,0],{'y':-100},
-                                (900,700))
-myCkAct2.approach(z=200) ##use only for robot2
-myCkAct2.traverseWithPrevAttitude([600,0,350])
-myCkAct2.pour(-100,speed=100,mvacc=20)
-myCkAct2.approach(x=-200) ## use ony for robot1
-myCkAct2.horizontalPlace([293,-325,50,-180,0,0],{'y':-100},900)
+myCkAct2.releaseObject()
 myCkAct2.customGoHome()
 
 
-"""
-switch the stove on
-"""
-myCkAct1.customGoHome()
-
-arm1.set_position(499,-200,250,-180,0,0,speed = 100, mvacc = 100, wait = True)
-arm1.set_position(yaw= -90, relative=True, wait =True,is_radian  = False)
-arm1.set_position(pitch= 54, relative=True, wait =True,is_radian  = False)
-arm1.set_gripper_position(200, wait=True)
-myCkAct1.approach(z= -215)
-myCkAct1.approach(y= 87)
-
-arm1.set_gripper_position(110, wait=True)
-
-code,angles = arm1.get_servo_angle(is_radian=False)
-angles1= angles[:-1] + [angles[-1]+90]
-
-arm1.set_servo_angle( angle=angles1,
-                     speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)
-
-arm1.set_gripper_position(500, wait=True)
-
-arm1.set_servo_angle( angle=angles,
-                     speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)
-
-arm1.set_gripper_position(500, wait=True)
-
-myCkAct1.traverseWithPrevAttitude([499,-150,35])
-
-myCkAct1.approach(z= 100)
-
-myCkAct1.customGoHome()
 arm1.disconnect()
 arm2.disconnect()
 
 
 if __name__ == '__main__':
     
-    
+    pass
     
