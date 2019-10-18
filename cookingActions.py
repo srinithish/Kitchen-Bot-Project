@@ -19,8 +19,8 @@ class cookingActions(mainActions):
     def __init__(self, armHandle, **kwargs):
         
         
-        mainActions.__init__(armHandle,**kwargs)
-        self._armHandle = armHandle
+        mainActions.__init__(self,armHandle,**kwargs)
+#        self._armHandle = armHandle
         # TODO:check for sanity and coonection
         
         pass
@@ -80,7 +80,7 @@ class cookingActions(mainActions):
         armHandle.set_position(y=-2*length, relative=True, speed=speed, mvacc=mvacc, wait=wait)
         
         ## center again
-        armHandle.set_position(*initPosition, speed=speed, is_radian=False, speed=speed, mvacc=mvacc, wait=wait)
+        armHandle.set_position(*initPosition,is_radian=False, speed=speed, mvacc=mvacc, wait=wait)
         
         
         ## extreme left
@@ -103,35 +103,54 @@ class cookingActions(mainActions):
         pass
     
     
-    def sprinkle(self, centerPosWithOrient,numTimes,speed = None,mvacc=None,wait=None):
+    def sprinkle(self,numTimes,tiltBy=45,speed = None,mvacc=None,wait=None):
         
         
         """
-        imagines the Tool Orientation is upright 
+        imagines the Tool Orientation is upright
+        tiltBy : is the pitch angle
         
         """
         
         
         armHandle = self._armHandle
 
-        initPosition = list(centerPosWithOrient)
+        
         speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
+        initPosition = armHandle.get_position(is_radian=False)[1]
         # TODO: yet to decide roll or pitch or yaw
         ##position at 45
-        armHandle.set_position(*initPosition,speed = speed, wait=wait,is_radian  = False)
+        armHandle.set_position(*initPosition,speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
         
+        
+        
+        armHandle.set_position(pitch = -90,speed = speed,mvacc=mvacc, wait=wait,
+                               is_radian  = False,relative=True)
         
         
         ### loop here
         for i in range(numTimes):
         ### jerk move front
-            armHandle.set_position(x = 50,z = -200,pitch = +45, relative=True,
+            armHandle.set_position(x = 50,z = -50,pitch = -tiltBy, relative=True,
                                    speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
 
             ### jerk move back
-            armHandle.set_position(x = -50,z = 200,pitch = -45,relative=True, 
+            armHandle.set_position(x = -50,z = 50,pitch = +tiltBy,relative=True, 
                                    speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
-
+            
+        
+#            ###z motion alone
+#            armHandle.set_position(z = -100, relative=True,
+#                                   speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
+#
+#            ### jerk move back
+#            armHandle.set_position(z = 100,relative=True, 
+#                                   speed = speed,mvacc=mvacc, wait=wait,is_radian  = False)
+         
+        ##bring it back to vertical position
+        armHandle.set_position(pitch = 90,speed = speed,mvacc=mvacc, wait=wait,
+                               is_radian  = False,relative=True)
+            
         pass
     
     

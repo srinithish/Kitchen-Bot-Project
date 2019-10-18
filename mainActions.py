@@ -48,20 +48,21 @@ class mainActions:
 
         return speed, mvacc, wait
 
-    def customGoHome(self):
+    def customGoHome(self,wait = True):
 
         armHandle = self._armHandle
-
+        
         # TODO: convert to servo angle
         #        armHandle.set_mode(1)
 
-        armHandle.set_servo_angle(angle = [0,-43.3,0,17.6,0,60.9,0],speed = 100,mvacc = 10,wait  = True)
+        armHandle.set_servo_angle(angle = [0,-43.3,0,17.6,0,60.9,0],speed = 100,mvacc = 10,wait  = wait)
 
         #        armHandle.set_mode(0)
         # armHandle.set_position(250, 0, 150, -180, 0, 0,
         #                        speed=100, mvacc=10,
         #                        wait=True, is_radian=False)
-
+        code = armHandle.set_gripper_mode(0)
+        code = armHandle.set_gripper_enable(True)
         armHandle.set_gripper_position(100, wait=True)
 
         pass
@@ -86,7 +87,7 @@ class mainActions:
 
         pass
 
-    def _achieveHorizontalGripperPos(self, startPos):
+    def _achieveHorizontalGripperPos(self, startPos,speed=None, mvacc=None, wait=None):
 
         """
         Takes in start position that it wants to reach and decides the attitude to be
@@ -102,6 +103,7 @@ class mainActions:
         """
 
         armHandle = self._armHandle
+        speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
 
         if startPos[1] > 0:
 
@@ -117,26 +119,26 @@ class mainActions:
         ###a
 
         ## TODO : check these speeds and mvacc for valididty and change y if reqired
-        armHandle.set_position(250, y, 400, -180, 90, 0, speed=100, mvacc=10,
-                               wait=True, is_radian=False)
+        armHandle.set_position(250, y, 400, -180, 90, 0, speed=speed, mvacc=mvacc, wait=wait,
+                                is_radian=False)
 
-        armHandle.set_position(250, y, 400, xRoll, 90, 0, speed=100, mvacc=10,
-                               wait=True, is_radian=False)
+        armHandle.set_position(250, y, 400, xRoll, 90, 0, speed=speed, mvacc=mvacc, wait=wait,
+                               is_radian=False)
 
         ## return orientation
         return armHandle.get_position(is_radian=False)[1][3:]
 
-    def _achieveVerticalGripperPos(self, startPos):
+    def _achieveVerticalGripperPos(self, startPos,speed=None, mvacc=None, wait=None):
 
         """
         no use of start pos
         """
 
         armHandle = self._armHandle
-
+        speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
         ## TODO may require to do in joint angles
-        armHandle.set_position(250, 0, 400, -180, 0, 0, speed=100, mvacc=10,
-                               wait=True, is_radian=False)
+        armHandle.set_position(250, 0, 350, -180, 0, 0, speed=speed, mvacc=mvacc, wait=wait,
+                               is_radian=False)
 
         pass
 
@@ -147,21 +149,22 @@ class mainActions:
 
         pass
 
-    def horizontalPick(self, startPos, approachAfterStart,
+    def horizontalPick(self, objPos, approachAfterStart,
                        gripHoldValues,
-                       speed=None, mvacc=None, wait=None):
+                       speed=None, mvacc=None, wait=None,ZoffGround = 25):
 
         """
         Achieves horizontal position first
 
         @params:
-            startPos: where to standby for picking up the object
+            objPos: where to standby for picking up the object
             endPos: the endpoint at where the object has to be placed
 
             approachAfterStart: dict of what movements to make relative {x:100,y:100}
             
             gripHoldValues: tuple(startGripper,endGripper)
 
+            ZoffGround: amout z to be lifted
         """
 
         armHandle = self._armHandle
@@ -170,46 +173,56 @@ class mainActions:
         speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
 
         ##horizaontal position achieved
-        horizontalPosAngles = self._achieveHorizontalGripperPos(startPos)
+        horizontalPosAngles = self._achieveHorizontalGripperPos(objPos,
+                                                                speed=speed, mvacc=mvacc, wait=wait)
 
         ##before gripper position
         self.holdObject(gripHoldValues[0])
 
-        ##reach start pos
-        startPos[3:] = horizontalPosAngles
-        armHandle.set_position(*startPos, wait=wait, is_radian=False)
+        ##reach obj pos - approach
+        
+        objPosCopy = list(objPos)
+        objPosCopy[3:] = horizontalPosAngles
+        objPosCopy[0] = objPos[0] - approachAfterStart.get('x',0) 
+        objPosCopy[1] = objPos[1] - approachAfterStart.get('y',0) 
+        objPosCopy[2] = objPos[2] - approachAfterStart.get('z',0) 
+        
+        print('pos',objPosCopy,'hori',horizontalPosAngles)
+       
+        
+        armHandle.set_position(*objPosCopy, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
 
         ###approach the object
-        self.approach(**approachAfterStart)
+        self.approach(**approachAfterStart,speed=speed, mvacc=mvacc, wait=wait)
 
         ###hold the object
         self.holdObject(gripHoldValues[1])
 
         
         ###lift the object of the surface
-        self.approach(z= -50)
+        self.approach(z= ZoffGround,speed=speed, mvacc=mvacc, wait=wait)
         
         
 
         ###go back by approach
 
         reverseApproachAfterStart = {key: -value for key, value in approachAfterStart.items()}
-        self.approach(**reverseApproachAfterStart)
+        self.approach(**reverseApproachAfterStart,speed=speed, mvacc=mvacc, wait=wait)
 
         ##second pose
 
         return armHandle.get_position(is_radian=False)[1]
 
-    def horizontalPlace(self, endPose, approachAfterEnd,
+    def horizontalPlace(self, objPlacingPos, approachDirn,
                         gripHoldValue,
-                        speed=None, mvacc=None, wait=None):
+                        speed=None, mvacc=None, wait=None,ZoffGround = 25 ):
 
         """
         Always succeds a horizontal Pick
         Assumes object already held by gripper
 
         @params:
-            endPose : position before approach
+            objPlacingPos : position before approach
 
             approachEnd: dict of what movements to make relative {x:100,y:100}
 
@@ -223,24 +236,31 @@ class mainActions:
         horizontalPosAngles = armHandle.get_position(is_radian=False)[1][3:]
 
         ## TODO: check for validity of horizontal gripper positions
-
-        endPose[3:] = horizontalPosAngles
-        armHandle.set_position(*endPose, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
+        
+        objPlacingPos[3:] = horizontalPosAngles
+        objPlacingPos[0] = objPlacingPos[0] - approachDirn.get('x',0) 
+        objPlacingPos[1] = objPlacingPos[1] - approachDirn.get('y',0) 
+        objPlacingPos[2] = objPlacingPos[2] - approachDirn.get('z',0) + ZoffGround
+        armHandle.set_position(*objPlacingPos, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
 
         ###approach the object
-        self.approach(**approachAfterEnd)
+        self.approach(**approachDirn,speed=speed, mvacc=mvacc, wait=wait)
+        
+        
+        ### decend by 25
+        self.approach(z= -ZoffGround,speed=speed, mvacc=mvacc, wait=wait)
 
         ###release the object
         self.holdObject(gripHoldValue)
 
         ###go back by approach
 
-        reverseApproachAfterStart = {key: -value for key, value in approachAfterEnd.items()}
-        self.approach(**reverseApproachAfterStart)
+        reverseApproachAfterStart = {key: -value for key, value in approachDirn.items()}
+        self.approach(**reverseApproachAfterStart,speed=speed, mvacc=mvacc, wait=wait)
 
         return armHandle.get_position(is_radian=False)[1]
 
-    def verticalPick(self, startPos, approachAfterStart,
+    def verticalPick(self, objPickPos, approachDirn,
                      gripHoldValues,
                      speed=None, mvacc=None, wait=None):
 
@@ -250,7 +270,7 @@ class mainActions:
 
         @params:
             gripHoldValues = (before,after)
-
+            objPickPos = [x...,yaw...] eact obj location
 
         @return:
 
@@ -265,43 +285,54 @@ class mainActions:
         ##over ridding orientations
 
         ## TODO: Achieve vertical attitutde here through function
-        startPos[3:] = [-180, 0, 0]
-        armHandle.set_position(*startPos, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
+        objPickPos[3:] = [-180, 0, 0]
+        
+        objPickPos[0] = objPickPos[0] - approachDirn.get('x',0) 
+        objPickPos[1] = objPickPos[1] - approachDirn.get('y',0) 
+        objPickPos[2] = objPickPos[2] - approachDirn.get('z',0) 
+        armHandle.set_position(*objPickPos, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
 
         ###approach the object
-        self.approach(**approachAfterStart)
+        self.approach(**approachDirn,speed=speed, mvacc=mvacc, wait=wait)
 
         ###hold the object
         self.holdObject(gripHoldValues[1])
 
         ###go back by approach
-        reverseApproachAfterStart = {key: -value for key, value in approachAfterStart.items()}
-        self.approach(**reverseApproachAfterStart)
+        reverseApproachAfterStart = {key: -value for key, value in approachDirn.items()}
+        self.approach(**reverseApproachAfterStart,speed=speed, mvacc=mvacc, wait=wait)
 
         return armHandle.get_position(is_radian=False)[1]
 
-    def verticalPlace(self, endPose, approachAfterEnd,
+    def verticalPlace(self, objEndPos, approachDirn,
                       gripHoldValue=600,
                       speed=None, mvacc=None, wait=None):
 
         """
         assumes already holding an object
+        
+        @params:
+        objEndPos = [x...,yaw...] eact obj location
         """
         armHandle = self._armHandle
         speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
 
         ##go to end position
-        endPose[3:] = [-180, 0, 0]
-        armHandle.set_position(*endPose, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
+        objEndPos[3:] = [-180, 0, 0]
+        
+        objEndPos[0] = objEndPos[0] - approachDirn.get('x',0) 
+        objEndPos[1] = objEndPos[1] - approachDirn.get('y',0) 
+        objEndPos[2] = objEndPos[2] - approachDirn.get('z',0) 
+        armHandle.set_position(*objEndPos, speed=speed, mvacc=mvacc, wait=wait, is_radian=False)
 
         ###approach the table
-        self.approach(**approachAfterEnd)
+        self.approach(**approachDirn)
 
         ###place the object
         self.holdObject(gripHoldValue)
 
         ###go back by approach and stand by there
-        reverseApproachAfterStart = {key: -value for key, value in approachAfterEnd.items()}
+        reverseApproachAfterStart = {key: -value for key, value in approachDirn.items()}
         self.approach(**reverseApproachAfterStart)
 
         return armHandle.get_position(is_radian=False)[1]
@@ -319,6 +350,8 @@ class mainActions:
         """
         armHandle = self._armHandle
         speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
+        
+        print(speed,mvacc,wait)
 
         prevAttitutde = armHandle.get_position(is_radian=False)[1][3:]
 
