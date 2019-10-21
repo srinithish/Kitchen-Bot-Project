@@ -10,7 +10,7 @@ import re
 import voiceFeedback
 import queue
 import time
-
+import prepareNoodles
 
 
 class Action():
@@ -192,20 +192,44 @@ if __name__ == '__main__':
     repo : https://github.com/srinithish/Kitchen-Bot-Project
     usage python threadedSpeechRecognition.py
     """
-    
 
+    parser = ConfigParser()
+    parser.read('./robot1.conf')
+    ip1 = parser.get('xArm', 'ip')
+    parser.read('./robot2.conf')
+    ip2 = parser.get('xArm', 'ip')
+
+    arm1 = prepareNoodles.initialiseArms(ip1)
+    arm2 = prepareNoodles.initialiseArms(ip2)
+
+    myCkAct1 = cookingActions(arm1, speed=900, mvacc=900, wait=True)
+    myCkAct2 = cookingActions(arm2, speed=900, mvacc=900, wait=True)
+
+    myCkAct1.customGoHome(wait=True)
+    myCkAct2.customGoHome(wait=True)
 
     ## create action list
-    makeNoodles = Action(['make','noodles'],lambda: print("Sure"))
-    stirAction = Action(['stir'],lambda: print("Sure"))
-    pourAction = Action(['pour','water'],lambda: print("Sure"))
-    switchOnStove = Action(['switch','on','stove'],lambda: print("Sure"))
+    prepareNoodles.switchStoveOn = Action(['switch','stove','on'],lambda: print("Sure"))
+    prepareNoodles.pickGlassAndPour = Action(['pour','water'],lambda: print("Sure"))
+    prepareNoodles.sprinkleSalt = Action(['sprinkle','salt'],lambda: print("Sure"))
+    prepareNoodles.sprinklePepper = Action(['sprinkle','pepper'],lambda: print("Sure"))
+    prepareNoodles.sprinkleFlakes = Action(['sprinkle', 'flakes'], lambda: print("Sure"))
+    prepareNoodles.pickAndPlaceNoodles = Action(['put', 'noodles'], lambda: print("Sure"))
+    prepareNoodles.holdPan = Action(['hold', 'pan'], lambda: print("Sure"))
+    prepareNoodles.pickStirrerAndStir = Action(['stir', 'noodles'], lambda: print("Sure"))
+    prepareNoodles.releasePan = Action(['release', 'pan'], lambda: print("Sure"))
+
     stopRobotAction = Action(['stop','moving'],lambda: print("Sure"),0)
     pauseRobotAction = Action(['pause','moving'],lambda: print("Sure"),1)
     startRobotAction = Action(['start','moving'],lambda: print("Sure"),2)
     
     
-    possibleActions = [makeNoodles,stirAction,pourAction,
+    possibleActions = [prepareNoodles.switchStoveOn,prepareNoodles.pickGlassAndPour,
+                       prepareNoodles.sprinkleSalt,
+                       prepareNoodles.sprinklePepper,prepareNoodles.sprinkleFlakes,
+                       prepareNoodles.pickAndPlaceNoodles,
+                       prepareNoodles.holdPan,prepareNoodles.pickStirrerAndStir,
+                       prepareNoodles.releasePan,
                        switchOnStove,stopRobotAction,pauseRobotAction]
     
     listener= listenAndPerformActions(possibleActions)
