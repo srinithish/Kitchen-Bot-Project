@@ -11,6 +11,7 @@ import voiceFeedback
 import queue
 import time
 import prepareNoodles
+import pyAudio
 
 
 class Action():

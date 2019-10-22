@@ -26,3 +26,18 @@ myCkAct2 = cookingActions(arm2,speed = 900,mvacc = 900,wait = True)
 myCkAct1.customGoHome(wait=True)
 myCkAct2.customGoHome(wait=True)
 
+# prepareNoodles.switchStoveOn()
+# prepareNoodles.pickGlassAndPour()
+# prepareNoodles.sprinkleSalt()
+# prepareNoodles.sprinklePepper()
+# prepareNoodles.sprinkleFlakes()
+# prepareNoodles.sprinkleFlavor()
+# prepareNoodles.pickAndPlaceNoodles()
+# prepareNoodles.holdPan()
+# prepareNoodles.pickStirrerAndStir()
+# prepareNoodles.releasePan()
+# prepareNoodles.switchStoveOff()
+
+arm1.disconnect()
+arm2.disconnect()
+
