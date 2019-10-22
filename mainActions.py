@@ -150,7 +150,7 @@ class mainActions:
         pass
 
     def horizontalPick(self, objPos, approachAfterStart,
-                       gripHoldValues,
+                       gripHoldValues,isHorizontal= False,
                        speed=None, mvacc=None, wait=None,ZoffGround = 25):
 
         """
@@ -173,9 +173,12 @@ class mainActions:
         speed, mvacc, wait = self._getDefaults(speed=speed, mvacc=mvacc, wait=wait)
 
         ##horizaontal position achieved
-        horizontalPosAngles = self._achieveHorizontalGripperPos(objPos,
-                                                                speed=speed, mvacc=mvacc, wait=wait)
-
+        if not isHorizontal:
+            self._achieveHorizontalGripperPos(objPos,speed=speed, mvacc=mvacc, wait=wait)
+            
+        
+        
+        horizontalPosAngles = armHandle.get_position(is_radian=False)[1][3:]
         ##before gripper position
         self.holdObject(gripHoldValues[0])
 
