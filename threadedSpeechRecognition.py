@@ -194,24 +194,15 @@ if __name__ == '__main__':
     usage python threadedSpeechRecognition.py
     """
 
-    parser = ConfigParser()
-    parser.read('./robot1.conf')
-    ip1 = parser.get('xArm', 'ip')
-    parser.read('./robot2.conf')
-    ip2 = parser.get('xArm', 'ip')
 
-    arm1 = prepareNoodles.initialiseArms(ip1)
-    arm2 = prepareNoodles.initialiseArms(ip2)
-
-    myCkAct1 = cookingActions(arm1, speed=900, mvacc=900, wait=True)
-    myCkAct2 = cookingActions(arm2, speed=900, mvacc=900, wait=True)
-
-    myCkAct1.customGoHome(wait=True)
-    myCkAct2.customGoHome(wait=True)
-
+    
     ## create action list
-    prepareNoodles.switchStoveOn = Action(['switch','stove','on'],lambda: print("Sure"))
-    prepareNoodles.pickGlassAndPour = Action(['pour','water'],lambda: print("Sure"))
+    ## follow this pattern
+    switchStoveOn = Action(['switch','stove','on'],prepareNoodles.switchStoveOn)
+    pickGlassAndPour= Action(['pour','water'],prepareNoodles.pickGlassAndPour)
+    #######
+    
+    
     prepareNoodles.sprinkleSalt = Action(['sprinkle','salt'],lambda: print("Sure"))
     prepareNoodles.sprinklePepper = Action(['sprinkle','pepper'],lambda: print("Sure"))
     prepareNoodles.sprinkleFlakes = Action(['sprinkle', 'flakes'], lambda: print("Sure"))
@@ -225,13 +216,7 @@ if __name__ == '__main__':
     startRobotAction = Action(['start','moving'],lambda: print("Sure"),2)
     
     
-    possibleActions = [prepareNoodles.switchStoveOn,prepareNoodles.pickGlassAndPour,
-                       prepareNoodles.sprinkleSalt,
-                       prepareNoodles.sprinklePepper,prepareNoodles.sprinkleFlakes,
-                       prepareNoodles.pickAndPlaceNoodles,
-                       prepareNoodles.holdPan,prepareNoodles.pickStirrerAndStir,
-                       prepareNoodles.releasePan,
-                       switchOnStove,stopRobotAction,pauseRobotAction]
+    possibleActions = [switchStoveOn,pickGlassAndPour]
     
     listener= listenAndPerformActions(possibleActions)
     listener.possibleActions
