@@ -11,7 +11,6 @@ import voiceFeedback
 import queue
 import time
 import prepareNoodles
-import pyAudio
 
 
 class Action():
@@ -175,7 +174,8 @@ def listenAndPerformActions(possibleActions):
     r = sr.Recognizer()
     mic_list = sr.Microphone.list_microphone_names() 
     
-    deviceIndex= mic_list.index('Microphone (UM02)')
+    #deviceIndex= mic_list.index('Microphone (UM02)')
+    deviceIndex= mic_list.index('Microphone (Logitech USB Headse')
     source  = sr.Microphone(device_index=deviceIndex)
 #    r.adjust_for_ambient_noise(source) 
     
@@ -200,27 +200,27 @@ if __name__ == '__main__':
     ## follow this pattern
     switchStoveOn = Action(['switch','stove','on'],prepareNoodles.switchStoveOn)
     pickGlassAndPour= Action(['pour','water'],prepareNoodles.pickGlassAndPour)
-    #######
-    
-    
-    prepareNoodles.sprinkleSalt = Action(['sprinkle','salt'],lambda: print("Sure"))
-    prepareNoodles.sprinklePepper = Action(['sprinkle','pepper'],lambda: print("Sure"))
-    prepareNoodles.sprinkleFlakes = Action(['sprinkle', 'flakes'], lambda: print("Sure"))
-    prepareNoodles.pickAndPlaceNoodles = Action(['put', 'noodles'], lambda: print("Sure"))
-    prepareNoodles.holdPan = Action(['hold', 'pan'], lambda: print("Sure"))
-    prepareNoodles.pickStirrerAndStir = Action(['stir', 'noodles'], lambda: print("Sure"))
-    prepareNoodles.releasePan = Action(['release', 'pan'], lambda: print("Sure"))
+    sprinkleSalt = Action(['sprinkle','salt'],prepareNoodles.sprinkleSalt)
+    sprinklePepper = Action(['sprinkle','pepper'],prepareNoodles.sprinklePepper )
+    sprinkleFlakes = Action(['sprinkle', 'flakes'], prepareNoodles.sprinkleFlakes)
+    sprinkleFlavor = Action(['sprinkle', 'flavor'], prepareNoodles.sprinkleFlavor )
+    pickAndPlaceNoodles = Action(['put', 'noodles'], prepareNoodles.pickAndPlaceNoodles)
+    holdPan = Action(['hold', 'pan'], prepareNoodles.holdPan)
+    pickStirrerAndStir = Action(['stir', 'noodles'], prepareNoodles.pickStirrerAndStir)
+    releasePan = Action(['release', 'pan'], prepareNoodles.releasePan)
 
     stopRobotAction = Action(['stop','moving'],lambda: print("Sure"),0)
     pauseRobotAction = Action(['pause','moving'],lambda: print("Sure"),1)
     startRobotAction = Action(['start','moving'],lambda: print("Sure"),2)
+
     
-    
-    possibleActions = [switchStoveOn,pickGlassAndPour]
+    possibleActions = [startRobotAction,stopRobotAction,pauseRobotAction,switchStoveOn,pickGlassAndPour
+                       ,sprinkleSalt,sprinklePepper,sprinkleFlakes,sprinkleFlavor,pickAndPlaceNoodles,
+                       holdPan,pickStirrerAndStir,releasePan]
     
     listener= listenAndPerformActions(possibleActions)
-    listener.possibleActions
-    ##main therad keeps active the backgroound thread
+    # listener.possibleActions
+    ##main thread keeps active the background thread
 
     while True: 
         time.sleep(0.1)

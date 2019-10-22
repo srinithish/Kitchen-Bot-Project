@@ -40,16 +40,11 @@ arm2 = initialiseArms(ip2)
 #arm2.set_position(300,0,300,-180,0,0,speed = 100, mvacc = 100, wait = False)
 
 
-
-
 ## set limited working space
 #arm.set_reduced_max_tcp_speed(200)
 # x_max, x_min, y_max, y_min, z_max, z_min = 500, 100, 600, 100, 400, 100
 # arm.set_reduced_tcp_boundary([x_max, x_min, y_max, y_min, z_max, z_min])
 # arm.set_reduced_mode(True)
-
-
-
 
 
 ## actions here
@@ -81,7 +76,7 @@ def switchStoveOn():
 
     code,angles = arm1.get_servo_angle(is_radian=False)
 
-    angles1 =  angles[:-1] + [angles[-1]+270]
+    angles1 =  angles[:-1] + [angles[-1]+180]
 
     arm1.set_servo_angle( angle=angles1,
                          speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)
@@ -219,7 +214,7 @@ Pick and place noodles
 
 
 def pickAndPlaceNoodles():
-    myCkAct1.customGoHome()
+    myCkAct2.customGoHome()
 
     #arm.set_position(510,-225,100,-180,0,0,speed = 100, mvacc = 100, wait = True)
     myCkAct2.verticalPick([195,340,50,-180,0,0],{'z':-200},(400,250))
@@ -237,7 +232,7 @@ hold the pan
 """
 
 def holdPan():
-    myCkAct1.customGoHome()
+    myCkAct2.customGoHome()
 
     myCkAct2.releaseObject()
     arm2.set_position(500,0,130,-180,0,0,wait=True)
@@ -285,7 +280,7 @@ def switchStoveOff():
 
     code,angles = arm1.get_servo_angle(is_radian=False)
 
-    angles1 =  angles[:-1] + [angles[-1]+270]
+    angles1 =  angles[:-1] + [angles[-1]+180]
 
     arm1.set_servo_angle( angle=angles1,
                          speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)
