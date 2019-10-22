@@ -10,7 +10,7 @@ import re
 import voiceFeedback
 import queue
 import time
-import prepareNoodles
+import quickNoodlesDemo
 
 
 class Action():
@@ -198,16 +198,18 @@ if __name__ == '__main__':
     
     ## create action list
     ## follow this pattern
-    switchStoveOn = Action(['switch','stove','on'],prepareNoodles.switchStoveOn)
-    pickGlassAndPour= Action(['pour','water'],prepareNoodles.pickGlassAndPour)
-    sprinkleSalt = Action(['sprinkle','salt'],prepareNoodles.sprinkleSalt)
-    sprinklePepper = Action(['sprinkle','pepper'],prepareNoodles.sprinklePepper )
-    sprinkleFlakes = Action(['sprinkle', 'flakes'], prepareNoodles.sprinkleFlakes)
-    sprinkleFlavor = Action(['sprinkle', 'flavor'], prepareNoodles.sprinkleFlavor )
-    pickAndPlaceNoodles = Action(['put', 'noodles'], prepareNoodles.pickAndPlaceNoodles)
-    holdPan = Action(['hold', 'pan'], prepareNoodles.holdPan)
-    pickStirrerAndStir = Action(['stir', 'noodles'], prepareNoodles.pickStirrerAndStir)
-    releasePan = Action(['release', 'pan'], prepareNoodles.releasePan)
+    switchStoveOn = Action(['switch','on'],quickNoodlesDemo.switchStoveOn)
+    pickGlassAndPour= Action(['add','water'],quickNoodlesDemo.pickGlassAndPour)
+    sprinkleFlavor = Action(['put', 'flavor'], quickNoodlesDemo.sprinkleFlavor)
+    sprinkleSalt = Action(['sprinkle','salt'],quickNoodlesDemo.sprinkleSalt)
+    sprinklePepper = Action(['sprinkle','pepper'],quickNoodlesDemo.sprinklePepper )
+    sprinkleFlakes = Action(['sprinkle', 'flakes'], quickNoodlesDemo.sprinkleFlakes)
+
+    pickAndPlaceNoodles = Action(['put', 'noodles'], quickNoodlesDemo.pickAndPlaceNoodles)
+    holdPan = Action(['hold', 'pan'], quickNoodlesDemo.holdPan)
+    pickStirrerAndStir = Action(['stir', 'noodles'], quickNoodlesDemo.pickStirrerAndStir)
+    releasePan = Action(['release', 'pan'], quickNoodlesDemo.releasePan)
+    switchStoveOff = Action(['switch','off'],quickNoodlesDemo.switchStoveOff)
 
     stopRobotAction = Action(['stop','moving'],lambda: print("Sure"),0)
     pauseRobotAction = Action(['pause','moving'],lambda: print("Sure"),1)
@@ -216,7 +218,7 @@ if __name__ == '__main__':
     
     possibleActions = [startRobotAction,stopRobotAction,pauseRobotAction,switchStoveOn,pickGlassAndPour
                        ,sprinkleSalt,sprinklePepper,sprinkleFlakes,sprinkleFlavor,pickAndPlaceNoodles,
-                       holdPan,pickStirrerAndStir,releasePan]
+                       holdPan,pickStirrerAndStir,releasePan,switchStoveOff]
     
     listener= listenAndPerformActions(possibleActions)
     # listener.possibleActions

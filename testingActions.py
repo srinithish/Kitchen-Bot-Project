@@ -12,13 +12,13 @@ import quickNoodlesDemo
 
 # quickNoodlesDemo.switchStoveOn()
 # quickNoodlesDemo.pickGlassAndPour()
+# quickNoodlesDemo.sprinkleFlavor()
 # quickNoodlesDemo.sprinkleSalt()
 # quickNoodlesDemo.sprinklePepper()
 # quickNoodlesDemo.sprinkleFlakes()
-quickNoodlesDemo.sprinkleFlavor()
 # quickNoodlesDemo.pickAndPlaceNoodles()
 # quickNoodlesDemo.holdPan()
-quickNoodlesDemo.pickStirrerAndStir()
+# quickNoodlesDemo.pickStirrerAndStir()
 # quickNoodlesDemo.releasePan()
 # quickNoodlesDemo.switchStoveOff()
 

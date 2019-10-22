@@ -76,7 +76,7 @@ def switchStoveOn():
 
     code,angles = arm1.get_servo_angle(is_radian=False)
 
-    angles1 =  angles[:-1] + [angles[-1]+180]
+    angles1 =  angles[:-1] + [angles[-1]+270]
 
     arm1.set_servo_angle( angle=angles1,
                          speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)
@@ -280,7 +280,7 @@ def switchStoveOff():
 
     code,angles = arm1.get_servo_angle(is_radian=False)
 
-    angles1 =  angles[:-1] + [angles[-1]+180]
+    angles1 =  angles[:-1] + [angles[-1]+270]
 
     arm1.set_servo_angle( angle=angles1,
                          speed=None, mvacc=None, mvtime=None, is_radian=False,wait=True)

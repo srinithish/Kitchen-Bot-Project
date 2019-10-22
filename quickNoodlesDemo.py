@@ -73,7 +73,7 @@ def switchStoveOn():
 
     code, angles = arm1.get_servo_angle(is_radian=False)
 
-    angles1 = angles[:-1] + [angles[-1] + 180]
+    angles1 = angles[:-1] + [angles[-1] + 270]
 
     arm1.set_servo_angle(angle=angles1,
                          speed=None, mvacc=None, mvtime=None, is_radian=False, wait=True)
@@ -135,12 +135,26 @@ def pickGlassAndPour():
     # myCkAct2.horizontalPlace([183,-325,50,-180,0,0],{'y':-100},900)
     # myCkAct2.customGoHome()
 
+"""
+Add Flavor
+"""
+def sprinkleFlavor():
+    # myCkAct1.customGoHome()
+
+    myCkAct1.horizontalPick([130, -340, 50, -180, 0, 0],{'y': -100},
+                            (440, 330),isHorizontal = True)
+
+    myCkAct1.traverseWithPrevAttitude([400, 0, 400])
+    myCkAct1.sprinkle(numTimes=1, tiltBy=150, speed=950, mvacc=400)
+    myCkAct1.horizontalPlace([130, -340, 50, -180, 0, 0], {'y': -100}, 440)
+
+    # myCkAct1.customGoHome()
+
 
 """
 Sprinkle salt
 
 """
-
 
 def sprinkleSalt():
     # myCkAct1.customGoHome()
@@ -164,10 +178,10 @@ def sprinklePepper():
     # myCkAct1.customGoHome()
 
     myCkAct1.horizontalPick([260, 340, 40, -180, 0, 0], {'y': 100},
-                            (410, 330))
+                            (410, 330),isHorizontal = True)
 
     myCkAct1.traverseWithPrevAttitude([400, 0, 400])
-    myCkAct1.sprinkle(numTimes=2, tiltBy=105, speed=950, mvacc=400)
+    myCkAct1.sprinkle(numTimes=1, tiltBy=105, speed=950, mvacc=400)
     myCkAct1.horizontalPlace([260, 340, 40, -180, 0, 0], {'y': 100}, 410)
 
     # myCkAct1.customGoHome()
@@ -182,26 +196,14 @@ def sprinkleFlakes():
     # myCkAct1.customGoHome()
 
     myCkAct1.horizontalPick([130, 340, 40, -180, 0, 0], {'y': 100},
-                            (460, 330))
+                            (460, 330), isHorizontal = True)
 
     myCkAct1.traverseWithPrevAttitude([400, 0, 400])
-    myCkAct1.sprinkle(numTimes=5, tiltBy=150, speed=950, mvacc=400)
+    myCkAct1.sprinkle(numTimes=3, tiltBy=150, speed=950, mvacc=400)
     myCkAct1.horizontalPlace([130, 340, 40, -180, 0, 0], {'y': 100}, 460)
 
     # myCkAct1.customGoHome()
 
-
-def sprinkleFlavor():
-    # myCkAct1.customGoHome()
-
-    myCkAct1.horizontalPick([130, -340, 50, -180, 0, 0], {'y': -100},
-                            (440, 330))
-
-    myCkAct1.traverseWithPrevAttitude([400, 0, 400])
-    myCkAct1.sprinkle(numTimes=1, tiltBy=150, speed=950, mvacc=400)
-    myCkAct1.horizontalPlace([130, -340, 50, -180, 0, 0], {'y': -100}, 440)
-
-    # myCkAct1.customGoHome()
 
 
 """
@@ -250,7 +252,7 @@ def pickStirrerAndStir():
 
     myCkAct1.approach(z=-135)
     start_time = time.time()
-    myCkAct1.stir(speed=100, radius=50, numTimes=2, wait=True)
+    myCkAct1.stir(speed=100, radius=50, numTimes=150, wait=True)
     print(int(time.time() - start_time))
 
     ## get back to vertical position
@@ -258,11 +260,11 @@ def pickStirrerAndStir():
 
     myCkAct1.verticalPlace([510, -225, 0, -180, 0, 0], {'z': -200}, 300)
 
-    myCkAct1.customGoHome()
+    # myCkAct1.customGoHome()
 
 
 def switchStoveOff():
-    myCkAct1.customGoHome()
+    # myCkAct1.customGoHome()
 
     arm1.set_position(499, -200, 250, -180, 0, 0, speed=100, mvacc=100, wait=True)
     arm1.set_position(yaw=-90, relative=True, wait=True, is_radian=False)
@@ -275,7 +277,7 @@ def switchStoveOff():
 
     code, angles = arm1.get_servo_angle(is_radian=False)
 
-    angles1 = angles[:-1] + [angles[-1] + 180]
+    angles1 = angles[:-1] + [angles[-1] + 270]
 
     arm1.set_servo_angle(angle=angles1,
                          speed=None, mvacc=None, mvtime=None, is_radian=False, wait=True)
