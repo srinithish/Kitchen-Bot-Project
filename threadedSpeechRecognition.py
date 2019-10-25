@@ -200,15 +200,15 @@ if __name__ == '__main__':
     ## follow this pattern
     switchStoveOn = Action(['switch','on'],quickNoodlesDemo.switchStoveOn)
     pickGlassAndPour= Action(['add','water'],quickNoodlesDemo.pickGlassAndPour)
-    sprinkleFlavor = Action(['put', 'flavor'], quickNoodlesDemo.sprinkleFlavor)
+    sprinkleFlavor = Action(['add', 'flavor'], quickNoodlesDemo.sprinkleFlavor)
     sprinkleSalt = Action(['sprinkle','salt'],quickNoodlesDemo.sprinkleSalt)
     sprinklePepper = Action(['sprinkle','pepper'],quickNoodlesDemo.sprinklePepper )
     sprinkleFlakes = Action(['sprinkle', 'flakes'], quickNoodlesDemo.sprinkleFlakes)
 
-    pickAndPlaceNoodles = Action(['put', 'noodles'], quickNoodlesDemo.pickAndPlaceNoodles)
-    holdPan = Action(['hold', 'pan'], quickNoodlesDemo.holdPan)
+    pickAndPlaceNoodles = Action(['add', 'noodles'], quickNoodlesDemo.pickAndPlaceNoodles)
+    holdPan = Action(['hold', 'handle'], quickNoodlesDemo.holdPan)
     pickStirrerAndStir = Action(['stir', 'noodles'], quickNoodlesDemo.pickStirrerAndStir)
-    releasePan = Action(['release', 'pan'], quickNoodlesDemo.releasePan)
+    releasePan = Action(['release', 'handle'], quickNoodlesDemo.releasePan)
     switchStoveOff = Action(['switch','off'],quickNoodlesDemo.switchStoveOff)
 
     stopRobotAction = Action(['stop','moving'],lambda: print("Sure"),0)

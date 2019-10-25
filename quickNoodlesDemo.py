@@ -35,21 +35,10 @@ def initialiseArms(ip):
 
 arm1 = initialiseArms(ip1)
 arm2 = initialiseArms(ip2)
-#
-# arm1.set_position(300,0,300,-180,0,0,speed = 100, mvacc = 100, wait = False)
-# arm2.set_position(300,0,300,-180,0,0,speed = 100, mvacc = 100, wait = False)
-
-
-## set limited working space
-# arm.set_reduced_max_tcp_speed(200)
-# x_max, x_min, y_max, y_min, z_max, z_min = 500, 100, 600, 100, 400, 100
-# arm.set_reduced_tcp_boundary([x_max, x_min, y_max, y_min, z_max, z_min])
-# arm.set_reduced_mode(True)
-
 
 ## actions here
-myCkAct1 = cookingActions(arm1, speed=900, mvacc=900, wait=True)
-myCkAct2 = cookingActions(arm2, speed=900, mvacc=900, wait=True)
+myCkAct1 = cookingActions(arm1, speed=1000, mvacc=1000, wait=True)
+myCkAct2 = cookingActions(arm2, speed=1000, mvacc=1000, wait=True)
 
 myCkAct1.customGoHome(wait=True)
 myCkAct2.customGoHome(wait=True)
@@ -97,33 +86,33 @@ pick glass and pour
 
 """
 
-
-#
-
 #####robot 1
 
 def pickGlassAndPour():
+
+    #####robot 1
     # myCkAct1.customGoHome()
 
     myCkAct1.horizontalPick([293, -325, 50, -180, 0, 0], {'y': -100},
                             (900, 700))
 
-    myCkAct1.traverseWithPrevAttitude([380, 0, 300])
+    myCkAct1.traverseWithPrevAttitude([380, 0, 250])
     myCkAct1.pour(-100, speed=100, mvacc=20)
 
     myCkAct1.horizontalPlace([293, -325, 50, -180, 0, 0], {'y': -100}, 900)
     # myCkAct1.customGoHome()
 
-    myCkAct2.customGoHome()
-
-    myCkAct2.horizontalPick([293, -325, 50, -180, 0, 0], {'y': -100},
-                            (900, 700))
-    myCkAct2.approach(z=200)  ##use only for robot2
-    myCkAct2.traverseWithPrevAttitude([600, 0, 300])
-    myCkAct2.pour(-100, speed=100, mvacc=20)
-    myCkAct2.approach(x=-200)  ## use ony for robot1
-    myCkAct2.horizontalPlace([293, -325, 50, -180, 0, 0], {'y': -100}, 900)
+    #####robot 2
     # myCkAct2.customGoHome()
+    #
+    # myCkAct2.horizontalPick([293, -325, 50, -180, 0, 0], {'y': -100},
+    #                         (900, 700))
+    # myCkAct2.approach(z=200)  ##use only for robot2
+    # myCkAct2.traverseWithPrevAttitude([600, 0, 300])
+    # myCkAct2.pour(-100, speed=100, mvacc=20)
+    # myCkAct2.approach(x=-200)  ## use ony for robot1
+    # myCkAct2.horizontalPlace([293, -325, 50, -180, 0, 0], {'y': -100}, 900)
+    # # myCkAct2.customGoHome()
 
 
     # myCkAct2.horizontalPick([183,-325,50,-180,0,0],{'y':-100},
@@ -163,7 +152,7 @@ def sprinkleSalt():
                             (410, 330))
 
     myCkAct1.traverseWithPrevAttitude([400, 0, 400])
-    myCkAct1.sprinkle(numTimes=1, tiltBy=90, speed=950, mvacc=400)
+    myCkAct1.sprinkle(numTimes=1, tiltBy=105, speed=950, mvacc=400)
     myCkAct1.horizontalPlace([195, 340, 40, -180, 0, 0], {'y': 100}, 410)
 
     # myCkAct1.customGoHome()
@@ -181,7 +170,7 @@ def sprinklePepper():
                             (410, 330),isHorizontal = True)
 
     myCkAct1.traverseWithPrevAttitude([400, 0, 400])
-    myCkAct1.sprinkle(numTimes=1, tiltBy=105, speed=950, mvacc=400)
+    myCkAct1.sprinkle(numTimes=2, tiltBy=105, speed=950, mvacc=400)
     myCkAct1.horizontalPlace([260, 340, 40, -180, 0, 0], {'y': 100}, 410)
 
     # myCkAct1.customGoHome()
@@ -199,7 +188,7 @@ def sprinkleFlakes():
                             (460, 330), isHorizontal = True)
 
     myCkAct1.traverseWithPrevAttitude([400, 0, 400])
-    myCkAct1.sprinkle(numTimes=3, tiltBy=150, speed=950, mvacc=400)
+    myCkAct1.sprinkle(numTimes=2, tiltBy=150, speed=950, mvacc=400)
     myCkAct1.horizontalPlace([130, 340, 40, -180, 0, 0], {'y': 100}, 460)
 
     # myCkAct1.customGoHome()
@@ -215,7 +204,7 @@ def pickAndPlaceNoodles():
     # myCkAct2.customGoHome()
 
     # arm.set_position(510,-225,100,-180,0,0,speed = 100, mvacc = 100, wait = True)
-    myCkAct2.verticalPick([195, 340, 50, -180, 0, 0], {'z': -200}, (400, 250))
+    myCkAct2.verticalPick([195, 350, 50, -180, 0, 0], {'z': -200}, (300, 120))
     arm2.set_position(670, 0, 220, -180, 0, 0, wait=True)
 
     myCkAct2.releaseObject()
@@ -252,7 +241,7 @@ def pickStirrerAndStir():
 
     myCkAct1.approach(z=-135)
     start_time = time.time()
-    myCkAct1.stir(speed=100, radius=50, numTimes=150, wait=True)
+    myCkAct1.stir(speed=100, radius=50, numTimes=30, wait=True)
     print(int(time.time() - start_time))
 
     ## get back to vertical position
